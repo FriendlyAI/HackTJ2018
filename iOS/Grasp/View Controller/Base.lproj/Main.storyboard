@@ -1,24 +1,137 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13122.16" systemVersion="17A277" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14105" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13104.12"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--View Controller-->
+        <!--Login View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="ViewController" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="BYZ-38-t0r" customClass="LoginViewController" customModule="Grasp" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="equalSpacing" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="LKv-OI-bOZ">
+                                <rect key="frame" x="16" y="280.5" width="343" height="106"/>
+                                <subviews>
+                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="E-mail" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="IgP-Yn-HyE">
+                                        <rect key="frame" x="0.0" y="0.0" width="343" height="30"/>
+                                        <nil key="textColor"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <textInputTraits key="textInputTraits" textContentType="email"/>
+                                    </textField>
+                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Password" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="KSy-Eo-Yq7">
+                                        <rect key="frame" x="0.0" y="38" width="343" height="30"/>
+                                        <nil key="textColor"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <textInputTraits key="textInputTraits" textContentType="password"/>
+                                    </textField>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="S1Y-wX-bcb">
+                                        <rect key="frame" x="0.0" y="76" width="343" height="30"/>
+                                        <state key="normal" title="Login/Register"/>
+                                        <connections>
+                                            <action selector="didTapLoginButton" destination="BYZ-38-t0r" eventType="touchUpInside" id="UeG-RE-V2C"/>
+                                            <segue destination="I0m-GD-nYJ" kind="showDetail" identifier="Show Main UI" id="h3v-XD-knl"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                            </stackView>
+                        </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="LKv-OI-bOZ" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="16" id="3kP-PM-J3z"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="LKv-OI-bOZ" secondAttribute="trailing" constant="16" id="5Nb-qk-s38"/>
+                            <constraint firstItem="LKv-OI-bOZ" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="7PO-Yh-Rd9"/>
+                            <constraint firstItem="LKv-OI-bOZ" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="qUQ-0e-Z6K"/>
+                        </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
+                    <connections>
+                        <outlet property="emailTextField" destination="IgP-Yn-HyE" id="Psg-Du-V54"/>
+                        <outlet property="loginButton" destination="S1Y-wX-bcb" id="Teu-gj-UC9"/>
+                        <outlet property="passwordTextField" destination="KSy-Eo-Yq7" id="Sg9-ct-FLC"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
         </scene>
+        <!--Goals-->
+        <scene sceneID="w3a-Wu-C62">
+            <objects>
+                <viewController id="iVD-RG-bZ8" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="kwT-qt-bK9">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <viewLayoutGuide key="safeArea" id="c0L-DU-qYR"/>
+                    </view>
+                    <tabBarItem key="tabBarItem" title="Goals" image="ic_shopping_cart" id="EMK-OU-iOT"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="7BF-wR-t3f" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1687" y="365"/>
+        </scene>
+        <!--Needs-->
+        <scene sceneID="z5n-yG-mBW">
+            <objects>
+                <viewController id="OET-lr-36X" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="Hgc-Aw-pZH">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <viewLayoutGuide key="safeArea" id="4b1-5U-eEk"/>
+                    </view>
+                    <tabBarItem key="tabBarItem" title="Needs" image="ic_chrome_reader_mode" id="4BE-xi-S3U"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="cvL-lk-I1X" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1687" y="-299"/>
+        </scene>
+        <!--Rainy Days-->
+        <scene sceneID="HNX-r5-1U4">
+            <objects>
+                <viewController id="DX7-Zj-tI2" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="pam-Np-pY7">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <viewLayoutGuide key="safeArea" id="l5F-dz-hZe"/>
+                    </view>
+                    <tabBarItem key="tabBarItem" title="Rainy Days" image="ic_beach_access" id="wSC-rN-b9N"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="D3X-aK-XTY" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2369" y="-113"/>
+        </scene>
+        <!--Tab Bar Controller-->
+        <scene sceneID="JdO-yV-P9D">
+            <objects>
+                <tabBarController id="I0m-GD-nYJ" sceneMemberID="viewController">
+                    <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="8Gh-zE-ECG">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="49"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    </tabBar>
+                    <connections>
+                        <segue destination="OET-lr-36X" kind="relationship" relationship="viewControllers" id="v69-Zk-2lv"/>
+                        <segue destination="iVD-RG-bZ8" kind="relationship" relationship="viewControllers" id="PCK-Nz-FTl"/>
+                        <segue destination="DX7-Zj-tI2" kind="relationship" relationship="viewControllers" id="U7I-cE-eE9"/>
+                    </connections>
+                </tabBarController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Tgz-as-RpR" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="735" y="34"/>
+        </scene>
     </scenes>
+    <resources>
+        <image name="ic_beach_access" width="24" height="24"/>
+        <image name="ic_chrome_reader_mode" width="24" height="24"/>
+        <image name="ic_shopping_cart" width="24" height="24"/>
+    </resources>
 </document>
