@@ -3,10 +3,11 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 48;
 	objects = {
 
 /* Begin PBXBuildFile section */
+		03DB618781C4060AE3736428 /* Pods_Grasp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 398696B97D98D75DF86E5FAF /* Pods_Grasp.framework */; };
 		52D480702054750000F89CDC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52D4806F2054750000F89CDC /* AppDelegate.swift */; };
 		52D480722054750000F89CDC /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52D480712054750000F89CDC /* ViewController.swift */; };
 		52D480752054750000F89CDC /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 52D480732054750000F89CDC /* Main.storyboard */; };
@@ -15,6 +16,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		398696B97D98D75DF86E5FAF /* Pods_Grasp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Grasp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		52D4806C2054750000F89CDC /* Grasp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Grasp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		52D4806F2054750000F89CDC /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		52D480712054750000F89CDC /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -22,6 +24,8 @@
 		52D480762054751000F89CDC /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		52D480792054751000F89CDC /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		52D4807B2054751000F89CDC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		65112DBFF459D84BD8FD117B /* Pods-Grasp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Grasp.release.xcconfig"; path = "Pods/Target Support Files/Pods-Grasp/Pods-Grasp.release.xcconfig"; sourceTree = "<group>"; };
+		860CEF654D431110719F9D48 /* Pods-Grasp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Grasp.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Grasp/Pods-Grasp.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -29,17 +33,28 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				03DB618781C4060AE3736428 /* Pods_Grasp.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		143231C06FB6C73124F04F22 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				398696B97D98D75DF86E5FAF /* Pods_Grasp.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		52D48063205474FF00F89CDC = {
 			isa = PBXGroup;
 			children = (
 				52D4806E2054750000F89CDC /* Grasp */,
 				52D4806D2054750000F89CDC /* Products */,
+				D09F7AF1F0710C72F73F31BB /* Pods */,
+				143231C06FB6C73124F04F22 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -54,14 +69,47 @@
 		52D4806E2054750000F89CDC /* Grasp */ = {
 			isa = PBXGroup;
 			children = (
+				52D48083205478EE00F89CDC /* Model */,
+				52D48082205478DA00F89CDC /* View Controller */,
+				52D48081205478C100F89CDC /* Supporting Files */,
+			);
+			path = Grasp;
+			sourceTree = "<group>";
+		};
+		52D48081205478C100F89CDC /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
 				52D4806F2054750000F89CDC /* AppDelegate.swift */,
-				52D480712054750000F89CDC /* ViewController.swift */,
-				52D480732054750000F89CDC /* Main.storyboard */,
 				52D480762054751000F89CDC /* Assets.xcassets */,
 				52D480782054751000F89CDC /* LaunchScreen.storyboard */,
 				52D4807B2054751000F89CDC /* Info.plist */,
 			);
-			path = Grasp;
+			path = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		52D48082205478DA00F89CDC /* View Controller */ = {
+			isa = PBXGroup;
+			children = (
+				52D480712054750000F89CDC /* ViewController.swift */,
+				52D480732054750000F89CDC /* Main.storyboard */,
+			);
+			path = "View Controller";
+			sourceTree = "<group>";
+		};
+		52D48083205478EE00F89CDC /* Model */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		D09F7AF1F0710C72F73F31BB /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				860CEF654D431110719F9D48 /* Pods-Grasp.debug.xcconfig */,
+				65112DBFF459D84BD8FD117B /* Pods-Grasp.release.xcconfig */,
+			);
+			name = Pods;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -71,9 +119,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 52D4807E2054751000F89CDC /* Build configuration list for PBXNativeTarget "Grasp" */;
 			buildPhases = (
+				F9A08E331E545801A7C01D39 /* [CP] Check Pods Manifest.lock */,
 				52D480682054750000F89CDC /* Sources */,
 				52D480692054750000F89CDC /* Frameworks */,
 				52D4806A2054750000F89CDC /* Resources */,
+				E777A7851326FFEF3AA504DC /* [CP] Embed Pods Frameworks */,
+				D3AC81EDDC027E0DAEEC7B86 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -96,11 +147,12 @@
 				TargetAttributes = {
 					52D4806B2054750000F89CDC = {
 						CreatedOnToolsVersion = 9.3;
+						ProvisioningStyle = Automatic;
 					};
 				};
 			};
 			buildConfigurationList = 52D48067205474FF00F89CDC /* Build configuration list for PBXProject "Grasp" */;
-			compatibilityVersion = "Xcode 9.3";
+			compatibilityVersion = "Xcode 8.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -129,6 +181,60 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		D3AC81EDDC027E0DAEEC7B86 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Grasp/Pods-Grasp-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		E777A7851326FFEF3AA504DC /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-Grasp/Pods-Grasp-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/MessageKit/MessageKit.framework",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MessageKit.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Grasp/Pods-Grasp-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		F9A08E331E545801A7C01D39 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-Grasp-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		52D480682054750000F89CDC /* Sources */ = {
@@ -270,24 +376,21 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 11.3;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
-				SWIFT_COMPILATION_MODE = wholemodule;
-				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
 		};
 		52D4807F2054751000F89CDC /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 860CEF654D431110719F9D48 /* Pods-Grasp.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = KZ7D8X3PRK;
-				INFOPLIST_FILE = Grasp/Info.plist;
+				INFOPLIST_FILE = "$(SRCROOT)/Grasp/Supporting Files/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-				);
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = io.github.apollozhu.Grasp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
@@ -297,16 +400,14 @@
 		};
 		52D480802054751000F89CDC /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 65112DBFF459D84BD8FD117B /* Pods-Grasp.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = KZ7D8X3PRK;
-				INFOPLIST_FILE = Grasp/Info.plist;
+				INFOPLIST_FILE = "$(SRCROOT)/Grasp/Supporting Files/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-				);
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = io.github.apollozhu.Grasp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;

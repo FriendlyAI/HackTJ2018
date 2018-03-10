@@ -1,0 +1,12 @@
+PODS:
+  - MessageKit (0.13.1)
+
+DEPENDENCIES:
+  - MessageKit
+
+SPEC CHECKSUMS:
+  MessageKit: fc74d71d9b05385138d47b3a4b7beef5c687daf1
+
+PODFILE CHECKSUM: 01a6bb7913ecacb5c3cebb6fdba69d61b4e58a00
+
+COCOAPODS: 1.4.0
