@@ -36,14 +36,15 @@ class OverviewViewController: UIViewController, UITextFieldDelegate {
     }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        tabBarController?.isTranslucent = true
+        extendedLayoutIncludesOpaqueBars = true
         pastelView.startAnimation()
     }
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
+        tabBarController?.isTranslucent = false
         pastelView.animationDidStop(.any, finished: false)
     }
-
-    private var textField: UITextField?
 
     private lazy var alert: UIAlertController = {
         let alert = UIAlertController.init(title: "Update Salary", message: "Input your monthly salary", preferredStyle: .alert)
@@ -55,7 +56,6 @@ class OverviewViewController: UIViewController, UITextFieldDelegate {
         bar.translatesAutoresizingMaskIntoConstraints = false
         alert.addTextField { [weak self] in
             guard let `self` = self else { return }
-            self.textField = $0
             $0.delegate = self
             $0.keyboardType = .decimalPad
             $0.inputAccessoryView = bar
@@ -68,7 +68,6 @@ class OverviewViewController: UIViewController, UITextFieldDelegate {
     }
 
     @objc private func dismissAlert() {
-        textField?.resignFirstResponder()
         alert.dismiss(animated: true, completion: nil)
     }
 

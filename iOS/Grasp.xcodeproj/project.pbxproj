@@ -15,6 +15,9 @@
 		52D480852054859E00F89CDC /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52D480842054859E00F89CDC /* LoginViewController.swift */; };
 		52D4808720549D1300F89CDC /* OverviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52D4808620549D1300F89CDC /* OverviewViewController.swift */; };
 		52D480892054A46700F89CDC /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52D480882054A46700F89CDC /* TabBarController.swift */; };
+		52D4808B2054B26800F89CDC /* GoalTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52D4808A2054B26800F89CDC /* GoalTableViewController.swift */; };
+		52D4808D2054B28100F89CDC /* GoalTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52D4808C2054B28100F89CDC /* GoalTableViewCell.swift */; };
+		52D4808F2054B34700F89CDC /* Goal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52D4808E2054B34700F89CDC /* Goal.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -28,6 +31,9 @@
 		52D480842054859E00F89CDC /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		52D4808620549D1300F89CDC /* OverviewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OverviewViewController.swift; sourceTree = "<group>"; };
 		52D480882054A46700F89CDC /* TabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
+		52D4808A2054B26800F89CDC /* GoalTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalTableViewController.swift; sourceTree = "<group>"; };
+		52D4808C2054B28100F89CDC /* GoalTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalTableViewCell.swift; sourceTree = "<group>"; };
+		52D4808E2054B34700F89CDC /* Goal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Goal.swift; sourceTree = "<group>"; };
 		65112DBFF459D84BD8FD117B /* Pods-Grasp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Grasp.release.xcconfig"; path = "Pods/Target Support Files/Pods-Grasp/Pods-Grasp.release.xcconfig"; sourceTree = "<group>"; };
 		860CEF654D431110719F9D48 /* Pods-Grasp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Grasp.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Grasp/Pods-Grasp.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -98,6 +104,8 @@
 				52D480732054750000F89CDC /* Main.storyboard */,
 				52D480842054859E00F89CDC /* LoginViewController.swift */,
 				52D4808620549D1300F89CDC /* OverviewViewController.swift */,
+				52D4808C2054B28100F89CDC /* GoalTableViewCell.swift */,
+				52D4808A2054B26800F89CDC /* GoalTableViewController.swift */,
 			);
 			path = "View Controller";
 			sourceTree = "<group>";
@@ -105,6 +113,7 @@
 		52D48083205478EE00F89CDC /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				52D4808E2054B34700F89CDC /* Goal.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -251,8 +260,11 @@
 			files = (
 				52D480852054859E00F89CDC /* LoginViewController.swift in Sources */,
 				52D480892054A46700F89CDC /* TabBarController.swift in Sources */,
+				52D4808B2054B26800F89CDC /* GoalTableViewController.swift in Sources */,
 				52D480702054750000F89CDC /* AppDelegate.swift in Sources */,
+				52D4808D2054B28100F89CDC /* GoalTableViewCell.swift in Sources */,
 				52D4808720549D1300F89CDC /* OverviewViewController.swift in Sources */,
+				52D4808F2054B34700F89CDC /* Goal.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
