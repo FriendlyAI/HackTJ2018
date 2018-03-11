@@ -91,12 +91,12 @@ class Login(QMainWindow):
 
     def create_account_wrapper(self):
 
-        if f'{self.name_line.text()}.txt' in listdir('Users'):
+        if f'{self.name_line.text()}.json' in listdir('Users'):
             msg = QErrorMessage(self)
             msg.showMessage('Error: User already exists.')
         else:
             try:
-                with open(f'Users/{self.name_line.text()}.txt', 'w+') as file:
+                with open(f'Users/{self.name_line.text()}.json', 'w+') as file:
                     user_dict = {
                         'name': f'{self.name_line.text()}',
                         'monthly': float(self.monthly_salary_line.text()),
@@ -116,7 +116,7 @@ class Login(QMainWindow):
 
     def login_wrapper(self):
         try:
-            with open(f'Users/{self.login_name_line.text()}.txt', 'r') as file:
+            with open(f'Users/{self.login_name_line.text()}.json', 'r') as file:
                 if json.load(file)['password'] != self.login_password_line.text():
                     msg = QErrorMessage(self)
                     msg.showMessage('Error: Username or password incorrect')
@@ -169,7 +169,7 @@ class Table(QTabWidget):
 
         self.name = name
 
-        with open(f'Users/{self.name}.txt', 'r') as file:
+        with open(f'Users/{self.name}.json', 'r') as file:
             self.user = json.load(file)
 
         self.balance = self.user['monthly']
@@ -398,14 +398,13 @@ class Table(QTabWidget):
         msg.showMessage(message)
 
     def refresh_data(self):
-        print(self.user)
-        with open(f'Users/{self.name}.txt', 'w') as file:
+        with open(f'Users/{self.name}.json', 'w') as file:
             json.dump(self.user, file, indent=4)
 
 
 if __name__ == '__main__':
 
-    with open('Users/John.txt', 'w') as f:
+    with open('Users/John.json', 'w') as f:
         data = {'name': 'John', 'monthly': 10000, 'age': 30, 'password': 'password',
                 'needs': {'Rent': 1000, 'Food': 400},
                 'goals': {'Car': {'amount': 20000, 'paid': 300},
