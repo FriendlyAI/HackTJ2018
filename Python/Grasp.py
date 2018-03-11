@@ -1,18 +1,36 @@
 import json
 import sys
 from PyQt5.QtWidgets import QMainWindow, QApplication, QWidget, QDesktopWidget, QPushButton, QTabWidget, QVBoxLayout, \
-    QLabel, QScrollArea, QProgressBar, QInputDialog, QErrorMessage
+    QLabel, QScrollArea, QProgressBar, QInputDialog, QErrorMessage, QLineEdit
 from PyQt5.QtGui import QFont
 from PyQt5.QtCore import Qt
+import time
 
 
-class Login(QWidget):
+class Login(QMainWindow):
 
     def __init__(self):
         super().__init__()
         self.width = 800
         self.height = 500
         self.screen = QDesktopWidget().screenGeometry()
+
+        self.create_account_label = QLabel(self)
+        self.name = QLabel(self)
+        self.name_line = QLineEdit(self)
+        self.monthly_salary = QLabel(self)
+        self.monthly_salary_line = QLineEdit(self)
+        self.password = QLabel(self)
+        self.password_line = QLineEdit(self)
+
+        self.create_account_button = QPushButton('Create Account', self)
+
+        self.login_name = QLabel(self)
+        self.login_name_line = QLineEdit(self)
+        self.login_password = QLabel(self)
+        self.login_password_line = QLineEdit(self)
+
+        self.login_button = QPushButton('Login', self)
 
         self.init_ui()
 
@@ -21,30 +39,72 @@ class Login(QWidget):
         self.setFixedSize(self.width, self.height)
         self.move((self.screen.width() - self.width) / 2, (self.screen.height() - self.height) / 2)
 
-        login_button = QPushButton('Create Account', self)
-        login_button.resize(login_button.sizeHint())
-        login_button.move((self.width - login_button.width()) / 2, (self.height - login_button.height()) / 2)
-        login_button.clicked.connect(self.open_main_wrapper)
+        # Create Account
+
+        self.create_account_label.setText('Create an Account')
+        self.create_account_label.resize(self.create_account_label.sizeHint())
+        self.create_account_label.move((self.width - self.create_account_label.width()) / 2, 25)
+
+        self.name.setText('Name:')
+        self.name_line.resize(150, 20)
+        self.name_line.move((self.width - self.name_line.width()) / 2, 50)
+        self.name.move((self.width - self.name_line.width()) / 2 - self.name.width(), 50)
+
+        self.monthly_salary.setText('Monthly Salary:')
+        self.monthly_salary_line.resize(150, 20)
+        self.monthly_salary_line.move((self.width - self.monthly_salary_line.width()) / 2, 75)
+        self.monthly_salary.move((self.width - self.monthly_salary_line.width()) / 2 - self.monthly_salary.width(), 75)
+
+        self.password.setText('Password:')
+        self.password_line.setEchoMode(QLineEdit.Password)
+        self.password_line.resize(150, 20)
+        self.password_line.move((self.width - self.password_line.width()) / 2, 100)
+        self.password.move((self.width - self.password_line.width()) / 2 - self.password.width(), 100)
+
+        self.create_account_button.resize(self.create_account_button.sizeHint())
+        self.create_account_button.move((self.width - self.create_account_button.width()) / 2, 125)
+        self.create_account_button.clicked.connect(self.create_account_wrapper)
+
+        # Login
+
+        self.login_button.resize(self.login_button.sizeHint())
+        self.login_button.move((self.width - self.login_button.width()) / 2,
+                               (self.height - self.login_button.height()) / 2)
+        self.login_button.clicked.connect(self.open_main_wrapper)
 
         self.show()
+
+    def create_account_wrapper(self):
+        with open(f'Users/{self.name_line.text()}.txt', 'w+') as file:
+            user_dict = {
+                'name': f'{self.name_line.text()}',
+                'monthly': float(self.monthly_salary_line.text()),
+                'password': f'{self.password_line.text()}',
+                'needs': {},
+                'goals': {}
+            }
+            json.dump(user_dict, file, indent=4)
+        self.open_main()
 
     def open_main_wrapper(self):
         self.open_main()
 
     def open_main(self):
+        self.main = Main(self.name_line.text())
+        self.main.show()
         self.hide()
-        main.show()
 
 
 class Main(QMainWindow):
 
-    def __init__(self):
+    def __init__(self, name):
         super().__init__()
+
         self.width = 800
         self.height = 500
         self.screen = QDesktopWidget().screenGeometry()
 
-        self.table_widget = Table(self)
+        self.table_widget = Table(self, name)
         self.setCentralWidget(self.table_widget)
 
         self.init_ui()
@@ -57,7 +117,7 @@ class Main(QMainWindow):
 
 class Table(QTabWidget):
 
-    def __init__(self, parent):
+    def __init__(self, parent, name):
         super(QTabWidget, self).__init__(parent)
 
         self.default_font = QFont('Menlo', 16)
@@ -70,12 +130,13 @@ class Table(QTabWidget):
         self.goal_list = {}
         self.need_list = {}
 
-        with open('Users/John.txt', 'r') as f:
-            self.user = json.load(f)
+        with open(f'Users/{name}.txt', 'r') as file:
+            self.user = json.load(file)
 
         self.balance = int(self.user['monthly'])
         self.salary_label = QLabel('Your monthly salary: ${:,.2f}'.format(self.user['monthly']))
         self.balance_label = QLabel('Your monthly remaining balance: ${:,.2f}'.format(self.balance))
+        self.rainy_day = QLabel('Your rainy day fund: ${:,.2f}'.format(max(self.balance, 0)))
 
         self.addTab(self.salary, 'Overview')
         self.addTab(self.needs, 'Needs')
@@ -134,9 +195,10 @@ class Table(QTabWidget):
 
         self.refresh_needs()
         self.balance_label.setText('Your monthly remaining balance: ${:,.2f}'.format(self.balance))
+        self.rainy_day.setText('Your rainy day fund: ${:,.2f}'.format(max(self.balance, 0)))
 
     def refresh_needs(self):
-
+        print(self.user['needs'])
         for need, need_amount in self.user['needs'].items():
             if need not in self.need_list.keys():
                 temp_label = QLabel(
@@ -156,8 +218,8 @@ class Table(QTabWidget):
             else:
                 self.need_list[need][1].setValue(min(100 * self.balance / need_amount, 100))
                 self.balance -= need_amount
-                if self.need_list[need][1].value() < 100:
-                    self.error('You don\'t have enough money to py for your needs!')
+                if self.balance < 0:
+                    self.error('You don\'t have enough money to pay for your needs!')
                 self.need_list[need][0].setText(
                     '{} (${:,.2f}/month)'.format(need, need_amount))
 
@@ -167,9 +229,10 @@ class Table(QTabWidget):
             amount, ok2 = QInputDialog.getInt(self, 'Input need amount/month', '$')
             if ok2:
                 try:
-                    self.user['goals'][need] = {'amount': amount}
-                    self.balance_label.setText('Your monthly remaining balance: ${:,.2f}'.format(self.balance))
+                    self.user['needs'][need] = amount
                     self.refresh_needs()
+                    self.balance_label.setText('Your monthly remaining balance: ${:,.2f}'.format(self.balance))
+                    self.rainy_day.setText('Your rainy day fund: ${:,.2f}'.format(max(self.balance, 0)))
                 except:
                     self.error('Error: Could not add need.')
 
@@ -177,7 +240,7 @@ class Table(QTabWidget):
         needs = self.user['needs'].keys()
         need, ok1 = QInputDialog.getItem(self, 'Remove Need', '', needs, 0, False)
         if ok1:
-            # try:
+            try:
                 self.balance += self.user['needs'][need]
                 del self.user['needs'][need]
                 self.needs_scroll.layout.removeWidget(self.need_list[need][0])
@@ -186,9 +249,10 @@ class Table(QTabWidget):
                 self.need_list[need][1].deleteLater()
                 del self.need_list[need]
                 self.balance_label.setText('Your monthly remaining balance: ${:,.2f}'.format(self.balance))
+                self.rainy_day.setText('Your rainy day fund: ${:,.2f}'.format(max(self.balance, 0)))
                 self.refresh_needs()
-            # except:
-            #     self.error('Error: Need not found.')
+            except:
+                self.error('Error: Need not found.')
 
     def goals_tab(self):
 
@@ -241,14 +305,15 @@ class Table(QTabWidget):
                 try:
                     amount_left = self.user['goals'][goal_to_pay]['amount'] - self.user['goals'][goal_to_pay]['paid']
                     if self.balance - min(amount_left, amount) < 0:
-                        self.error()
+                        self.error('Error: Account balance (${:,.2f}) insufficient'.format(self.balance))
                     else:
                         self.user['goals'][goal_to_pay]['paid'] += min(amount_left, amount)
                         self.balance -= min(amount_left, amount)
                         self.refresh_goals()
                         self.balance_label.setText('Your monthly remaining balance: ${:,.2f}'.format(self.balance))
-                except:
-                    self.error('Error: Account balance (${:,.2f}) insufficient'.format(self.balance))
+                        self.rainy_day.setText('Your rainy day fund: ${:,.2f}'.format(max(self.balance, 0)))
+                except KeyError:
+                    self.error('Error: Goal does not exist.')
 
     def add_goal(self):
         goal, ok1 = QInputDialog.getText(self, 'Input a new goal', '')
@@ -274,12 +339,18 @@ class Table(QTabWidget):
                 self.goal_list[goal][1].deleteLater()
                 del self.goal_list[goal]
                 self.balance_label.setText('Your monthly remaining balance: ${:,.2f}'.format(self.balance))
+                self.rainy_day.setText('Your rainy day fund: ${:,.2f}'.format(max(self.balance, 0)))
                 self.refresh_goals()
             except:
                 self.error('Error: Goal not found.')
 
     def rain_tab(self):
-        pass
+        salary_font = QFont('Menlo', 36)
+
+        self.rainy_day.setFont(salary_font)
+        self.rainy_day.setStyleSheet('QLabel { color: rgb(0, 0, 204) }')
+        self.rain.layout.addWidget(self.rainy_day)
+        self.rainy_day.setAlignment(Qt.AlignCenter)
 
     def error(self, message):
         msg = QErrorMessage(self)
@@ -298,7 +369,5 @@ if __name__ == '__main__':
     app = QApplication(sys.argv)
 
     login = Login()
-
-    main = Main()
 
     sys.exit(app.exec_())
