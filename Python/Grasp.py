@@ -1,10 +1,11 @@
 import json
-from os import listdir
 import sys
+from os import listdir
+
+from PyQt5.QtCore import Qt
+from PyQt5.QtGui import QFont
 from PyQt5.QtWidgets import QMainWindow, QApplication, QWidget, QDesktopWidget, QPushButton, QTabWidget, QVBoxLayout, \
     QLabel, QScrollArea, QProgressBar, QInputDialog, QErrorMessage, QLineEdit
-from PyQt5.QtGui import QFont
-from PyQt5.QtCore import Qt
 
 
 class Login(QMainWindow):
@@ -102,7 +103,8 @@ class Login(QMainWindow):
                         'monthly': float(self.monthly_salary_line.text()),
                         'password': f'{self.password_line.text()}',
                         'needs': {},
-                        'goals': {}
+                        'goals': {},
+                        'savings': 0
                     }
                     json.dump(user_dict, file, indent=4)
             except ValueError:
@@ -175,7 +177,8 @@ class Table(QTabWidget):
         self.balance = self.user['monthly']
         self.salary_label = QLabel('Your monthly salary: ${:,.2f}'.format(self.user['monthly']))
         self.balance_label = QLabel('Your monthly remaining balance: ${:,.2f}'.format(self.balance))
-        self.rainy_day = QLabel('Your rainy day fund: ${:,.2f}'.format(max(self.balance, 0)))
+        self.user['savings'] += self.balance
+        self.rainy_day = QLabel('Your rainy day fund: ${:,.2f}'.format(self.user['savings']))
 
         self.addTab(self.salary, 'Overview')
         self.addTab(self.needs, 'Needs')
@@ -234,7 +237,7 @@ class Table(QTabWidget):
 
         self.refresh_needs()
         self.balance_label.setText('Your monthly remaining balance: ${:,.2f}'.format(self.balance))
-        self.rainy_day.setText('Your rainy day fund: ${:,.2f}'.format(max(self.balance, 0)))
+        self.rainy_day.setText('Your rainy day fund: ${:,.2f}'.format(self.user['savings']))
 
     def refresh_needs(self):
         for need, need_amount in self.user['needs'].items():
@@ -248,6 +251,7 @@ class Table(QTabWidget):
                 temp_bar.setFixedSize(300, 20)
                 temp_bar.setValue(min(100 * self.balance / need_amount, 100))
                 self.balance -= need_amount
+                self.user['savings'] -= need_amount
                 if self.balance < 0:
                     self.error('You don\'t have enough money to pay for your needs!')
                 self.needs_scroll.layout.insertWidget(self.needs_scroll.layout.count() - 1, temp_bar, 0, Qt.AlignCenter)
@@ -272,7 +276,7 @@ class Table(QTabWidget):
                         self.user['needs'][need] = amount
                         self.refresh_needs()
                         self.balance_label.setText('Your monthly remaining balance: ${:,.2f}'.format(self.balance))
-                        self.rainy_day.setText('Your rainy day fund: ${:,.2f}'.format(max(self.balance, 0)))
+                        self.rainy_day.setText('Your rainy day fund: ${:,.2f}'.format(self.user['savings']))
                 except:
                     self.error('Error: Could not add need.')
 
@@ -289,7 +293,7 @@ class Table(QTabWidget):
                 self.need_list[need][1].deleteLater()
                 del self.need_list[need]
                 self.balance_label.setText('Your monthly remaining balance: ${:,.2f}'.format(self.balance))
-                self.rainy_day.setText('Your rainy day fund: ${:,.2f}'.format(max(self.balance, 0)))
+                self.rainy_day.setText('Your rainy day fund: ${:,.2f}'.format(self.user['savings']))
                 self.refresh_needs()
             except:
                 self.error('Error: Need not found.')
@@ -323,7 +327,8 @@ class Table(QTabWidget):
                 temp_label = QLabel(
                     '{} (${:,.2f}/${:,.2f})'.format(goal, goal_data['paid'], goal_data['amount']))
                 temp_label.setFont(self.default_font)
-                self.goals_scroll.layout.insertWidget(self.goals_scroll.layout.count() - 1, temp_label, 0, Qt.AlignCenter)
+                self.goals_scroll.layout.insertWidget(self.goals_scroll.layout.count() - 1, temp_label, 0,
+                                                      Qt.AlignCenter)
 
                 temp_bar = QProgressBar(self.goals)
                 temp_bar.setFixedSize(300, 20)
@@ -350,9 +355,10 @@ class Table(QTabWidget):
                     else:
                         self.user['goals'][goal_to_pay]['paid'] += min(amount_left, amount)
                         self.balance -= min(amount_left, amount)
+                        self.user['savings'] -= min(amount_left, amount)
                         self.refresh_goals()
                         self.balance_label.setText('Your monthly remaining balance: ${:,.2f}'.format(self.balance))
-                        self.rainy_day.setText('Your rainy day fund: ${:,.2f}'.format(max(self.balance, 0)))
+                        self.rainy_day.setText('Your rainy day fund: ${:,.2f}'.format(self.user['savings']))
                 except KeyError:
                     self.error('Error: Goal does not exist.')
 
@@ -380,7 +386,7 @@ class Table(QTabWidget):
                 self.goal_list[goal][1].deleteLater()
                 del self.goal_list[goal]
                 self.balance_label.setText('Your monthly remaining balance: ${:,.2f}'.format(self.balance))
-                self.rainy_day.setText('Your rainy day fund: ${:,.2f}'.format(max(self.balance, 0)))
+                self.rainy_day.setText('Your rainy day fund: ${:,.2f}'.format(self.user['savings']))
                 self.refresh_goals()
             except:
                 self.error('Error: Goal not found.')
@@ -403,12 +409,15 @@ class Table(QTabWidget):
 
 
 if __name__ == '__main__':
-
     with open('Users/John.json', 'w') as f:
-        data = {'name': 'John', 'monthly': 10000, 'age': 30, 'password': 'password',
+        data = {'name': 'John',
+                'monthly': 10000,
+                'password': 'password',
                 'needs': {'Rent': 1000, 'Food': 400},
                 'goals': {'Car': {'amount': 20000, 'paid': 300},
-                          'Phone': {'amount': 1000, 'paid': 100}}}
+                          'Phone': {'amount': 1000, 'paid': 100}},
+                'savings': 1000
+                }
         json.dump(data, f, indent=4)
 
     app = QApplication(sys.argv)
