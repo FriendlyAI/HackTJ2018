@@ -113,4 +113,15 @@ final class DataManager {
         saveGoals()
         saveNeeds()
     }
+
+    func reset() {
+        cumulativeRainyDayFund = 0
+        needs = []
+        saveNeeds()
+        goals = []
+        saveGoals()
+        salary = 0
+        totalAllGoalsPaid = 0
+        ud.synchronize()
+    }
 }

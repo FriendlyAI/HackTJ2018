@@ -35,6 +35,12 @@ class RainyDayViewController: UIViewController {
             }
         }
     }
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        extendedLayoutIncludesOpaqueBars = true
+        tabBarController?.isTranslucent = true
+    }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         extendedLayoutIncludesOpaqueBars = true

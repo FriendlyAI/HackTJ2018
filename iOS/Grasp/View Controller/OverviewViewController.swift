@@ -8,6 +8,7 @@
 
 import UIKit
 import Pastel
+import StatusAlert
 
 class OverviewViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var salaryDisplayLabel: UILabel! {
@@ -54,7 +55,18 @@ class OverviewViewController: UIViewController, UITextFieldDelegate {
         tabBarController?.isTranslucent = false
         pastelView.animationDidStop(.any, finished: false)
     }
+
+    // MARK: - Fancy Stuff
+
     private var alert: UIAlertController!
+
+    lazy var statusAlert: StatusAlert = StatusAlert.instantiate(
+        withImage: #imageLiteral(resourceName: "Success icon"),
+        title: "Updated!",
+        message: nil,
+        canBePickedOrDismissed: true
+    )
+
 
     @IBAction private func configureSalary() {
         alert = UIAlertController(
@@ -66,6 +78,7 @@ class OverviewViewController: UIViewController, UITextFieldDelegate {
             DataManager.shared.startNewCycle()
             self.updateSalaryDisplay()
             self.updateRemainingDisplay()
+            self.statusAlert.showInKeyWindow()
         })
         alert.addAction(UIAlertAction(title: "Got some money", style: .default) { _ in
             self.addMoney()

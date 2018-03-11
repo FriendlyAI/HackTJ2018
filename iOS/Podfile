@@ -10,5 +10,6 @@ target 'Grasp' do
   pod "Pastel"
   pod 'FaveButton'
   pod 'DZNEmptyDataSet'
-
+  pod 'StatusAlert'
+  
 end
