@@ -73,12 +73,14 @@ class GoalTableViewController: UITableViewController, UITextFieldDelegate, GoalT
     }()
 
     @objc private func add() {
+        isDismissing = true
         goalTextField?.delegate = self
         costTextField?.delegate = self
         present(alert, animated: true, completion: nil)
     }
 
     func textFieldDidEndEditing(_ textField: UITextField) {
+        if isDismissing { return }
         if textField == payTextField {
             if let text = textField.text,
                 let payment = Double(text),
@@ -109,21 +111,28 @@ class GoalTableViewController: UITableViewController, UITextFieldDelegate, GoalT
         }
     }
 
+    private var isDismissing = false
+
     private func dismissNoMatterWhat() {
         goalTextField?.delegate = nil
         costTextField?.delegate = nil
         payTextField?.delegate = nil
+
         goalTextField?.resignFirstResponder()
         costTextField?.resignFirstResponder()
         payTextField?.resignFirstResponder()
+
         goalTextField?.text = ""
         costTextField?.text = ""
         payTextField?.text = ""
+
         alert.dismiss(animated: true, completion: nil)
         payAlert?.dismiss(animated: true, completion: nil)
+        isDismissing = false
     }
 
     @objc private func dismissAlert() {
+        isDismissing = false
         if let goalName = goalTextField?.text, !goalName.isEmpty {
             if let amount = costTextField?.text, let cost = Double(amount) {
                 let indexPath = IndexPath(row: goals.count, section: 0)
@@ -176,15 +185,16 @@ class GoalTableViewController: UITableViewController, UITextFieldDelegate, GoalT
     }
 
     private var payAlert: UIAlertController?
-    private var payTextField: UITextField?
+    private weak var payTextField: UITextField?
     private var payIndexPath: IndexPath?
 
     @objc private func dismissPaymentAlert() {
+        isDismissing = false
         payTextField?.resignFirstResponder()
-        dismissNoMatterWhat()
     }
 
     func payForCell(_ cell: GoalTableViewCell) {
+        isDismissing = true
         payIndexPath = tableView.indexPath(for: cell)
         let row = payIndexPath!.row
         let goal = goals[row]
@@ -207,6 +217,10 @@ class GoalTableViewController: UITableViewController, UITextFieldDelegate, GoalT
         payAlert?.addAction(UIAlertAction(title: "Cancel", style: .cancel)
         { _ in self.dismissNoMatterWhat() })
         present(payAlert!, animated: true, completion: nil)
+    }
+
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
     }
 
     /*

@@ -54,11 +54,11 @@ class OverviewViewController: UIViewController, UITextFieldDelegate {
             UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(dismissAlert))
         ]
         bar.translatesAutoresizingMaskIntoConstraints = false
-        alert.addTextField { [weak self] in
-            guard let `self` = self else { return }
+        alert.addTextField {
             $0.delegate = self
             $0.keyboardType = .decimalPad
             $0.inputAccessoryView = bar
+            $0.placeholder = "\(self.salary)"
         }
         return alert
     }()
