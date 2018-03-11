@@ -9,14 +9,14 @@
 import UIKit
 import DZNEmptyDataSet
 
-class GoalTableViewController: UITableViewController, UITextFieldDelegate,
-GoalTableViewCellDelegate {
+class GoalTableViewController: UITableViewController, UITextFieldDelegate, GoalTableViewCellDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         DataManager.shared.loadGoals()
         tableView.emptyDataSetSource = self
         tableView.emptyDataSetDelegate = self
         tableView.tableFooterView = UIView()
+        tableView.rowHeight = 100
         navigationItem.rightBarButtonItems = [
             editButtonItem,
             UIBarButtonItem(barButtonSystemItem: .add,
@@ -172,8 +172,9 @@ GoalTableViewCellDelegate {
         return cell
     }
 
-    // Override to support editing the table view.
-    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+    override func tableView(_ tableView: UITableView,
+                            commit editingStyle: UITableViewCellEditingStyle,
+                            forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             DataManager.shared.goals.remove(at: indexPath.row)
             tableView.deleteRows(at: [indexPath], with: .automatic)

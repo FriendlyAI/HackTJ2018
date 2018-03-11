@@ -15,7 +15,7 @@ class NeedTableViewController: UITableViewController, UITextFieldDelegate {
         super.viewDidLoad()
         tableView.emptyDataSetSource = self
         tableView.emptyDataSetDelegate = self
-        // TODO: Remove the hack
+        tableView.rowHeight = 100
         tableView.tableFooterView = UIView()
         DataManager.shared.loadNeeds()
         navigationItem.rightBarButtonItems = [
@@ -128,12 +128,11 @@ class NeedTableViewController: UITableViewController, UITextFieldDelegate {
         let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier",
                                                  for: indexPath)
         let need = DataManager.shared.needs[indexPath.row]
-        cell.textLabel?.text = need.name
-        cell.detailTextLabel?.text = String(format: "$ %.2f", need.cost)
+        (cell.viewWithTag(2) as? UILabel)?.text = need.name
+        (cell.viewWithTag(1) as? UILabel)?.text = String(format: "$ %.2f", need.cost)
         return cell
     }
 
-    // Override to support editing the table view.
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             DataManager.shared.needs.remove(at: indexPath.row)
