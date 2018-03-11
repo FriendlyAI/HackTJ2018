@@ -7,32 +7,17 @@
 //
 
 import UIKit
+import DZNEmptyDataSet
 
 class NeedTableViewController: UITableViewController, UITextFieldDelegate {
 
-    private var needs: [Need] = [] {
-        didSet {
-            saveNeeds()
-        }
-    }
-
-    private func loadNeeds() {
-        guard let data = UserDefaults.standard.data(forKey: "Needs")
-            , let newNeeds = try? JSONDecoder().decode([Need].self, from: data)
-            else { return }
-        needs = newNeeds
-        tableView?.reloadData()
-    }
-
-    private func saveNeeds() {
-        if let data = try? JSONEncoder().encode(needs) {
-            UserDefaults.standard.set(data, forKey: "Needs")
-        }
-    }
-
     override func viewDidLoad() {
         super.viewDidLoad()
-        loadNeeds()
+        tableView.emptyDataSetSource = self
+        tableView.emptyDataSetDelegate = self
+        tableView.rowHeight = 100
+        tableView.tableFooterView = UIView()
+        DataManager.shared.loadNeeds()
         navigationItem.rightBarButtonItems = [
             editButtonItem,
             UIBarButtonItem(barButtonSystemItem: .add,
@@ -44,6 +29,12 @@ class NeedTableViewController: UITableViewController, UITextFieldDelegate {
     private weak var nameTextField: UITextField?
     private weak var costTextField: UITextField?
     private var isDismissing = false
+
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        tableView?.reloadData()
+        updateSummary()
+    }
 
     func textFieldDidEndEditing(_ textField: UITextField) {
         if isDismissing { return }
@@ -84,6 +75,8 @@ class NeedTableViewController: UITableViewController, UITextFieldDelegate {
         }
         alert.addAction(UIAlertAction(title: "Cancel", style: .cancel)
         { _ in self.dismissNoMatterWhat() })
+        alert.addAction(UIAlertAction(title: "Done", style: .default)
+        { _ in self.dismissAlert() })
         present(alert, animated: true, completion: nil)
     }
 
@@ -91,10 +84,12 @@ class NeedTableViewController: UITableViewController, UITextFieldDelegate {
         isDismissing = false
         if let name = nameTextField?.text, !name.isEmpty {
             if let amount = costTextField?.text, let cost = Double(amount) {
-                let indexPath = IndexPath(row: needs.count, section: 0)
+                let size = DataManager.shared.needs.count
+                let indexPath = IndexPath(row: size, section: 0)
                 let need = Need(name: name, cost: cost)
-                needs.append(need)
+                DataManager.shared.needs.append(need)
                 tableView.insertRows(at: [indexPath], with: .automatic)
+                if size == 0 { tableView.reloadEmptyDataSet() }
                 dismissNoMatterWhat()
             } else {
                 costTextField?.becomeFirstResponder()
@@ -115,50 +110,96 @@ class NeedTableViewController: UITableViewController, UITextFieldDelegate {
         isDismissing = false
     }
 
-
     // MARK: - Table view data source
 
     override func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
 
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return needs.count
+    override func tableView(_ tableView: UITableView,
+                            numberOfRowsInSection section: Int) -> Int {
+        let size = DataManager.shared.needs.count
+        tableView.tableHeaderView?.isHidden = size == 0
+        return size
     }
 
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    override func tableView(_ tableView: UITableView,
+                            cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier",
                                                  for: indexPath)
-        let need = needs[indexPath.row]
-        cell.textLabel?.text = need.name
-        cell.detailTextLabel?.text = String(format: "$ %.2f", need.cost)
+        let need = DataManager.shared.needs[indexPath.row]
+        (cell.viewWithTag(2) as? UILabel)?.text = need.name
+        (cell.viewWithTag(1) as? UILabel)?.text = String(format: "$ %.2f", need.cost)
         return cell
     }
 
-    // Override to support editing the table view.
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
-        switch editingStyle {
-        case .delete:
-            // Delete the row from the data source
-            needs.remove(at: indexPath.row)
+        if editingStyle == .delete {
+            DataManager.shared.needs.remove(at: indexPath.row)
             tableView.deleteRows(at: [indexPath], with: .automatic)
-        default:
-            return
+            if DataManager.shared.needs.count == 0 {
+                tableView.reloadEmptyDataSet()
+            }
+        }
+        updateSummary()
+    }
+
+    // MARK: - Summary
+
+    @IBOutlet weak var summaryLabel: UILabel! {
+        didSet {
+            updateSummary()
         }
     }
 
-    /*
-    // Override to support rearranging the table view.
-    override func tableView(_ tableView: UITableView, moveRowAt fromIndexPath: IndexPath, to: IndexPath) {
-
+    private func updateSummary() {
+        let needs = DataManager.shared.totalNeeds
+        let salary = DataManager.shared.salary
+        let diff = salary - needs
+        if diff < 0 {
+            summaryLabel.text = String(format: "You still need to pay $ %.2f", -diff)
+        } else {
+            summaryLabel.text = "You can pay all of them!"
+        }
     }
-    */
+}
 
-    /*
-    // Override to support conditional rearranging of the table view.
-    override func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
-        // Return false if you do not want the item to be re-orderable.
-        return true
+
+extension NeedTableViewController: DZNEmptyDataSetSource {
+    func image(forEmptyDataSet scrollView: UIScrollView!) -> UIImage! {
+        return  #imageLiteral(resourceName: "ic_lightbulb_outline_48pt")
     }
-    */
+
+    func title(forEmptyDataSet scrollView: UIScrollView!) -> NSAttributedString! {
+        let attr: [NSAttributedStringKey: Any] = [
+            .font: UIFont.preferredFont(forTextStyle: .title1),
+            .foregroundColor: UIColor.lightGray
+        ]
+        return NSAttributedString(string: "Nothing to pay for every month.", attributes: attr)
+    }
+
+    func description(forEmptyDataSet scrollView: UIScrollView!) -> NSAttributedString! {
+        let paragraph = NSMutableParagraphStyle()
+        paragraph.lineBreakMode = .byWordWrapping
+        paragraph.alignment = .center
+        let attr: [NSAttributedStringKey: Any] = [
+            .font: UIFont.preferredFont(forTextStyle: .body),
+            .foregroundColor: UIColor.lightGray,
+            .paragraphStyle: paragraph
+        ]
+        return NSAttributedString(string: "Add something that requires monthly payment here.", attributes: attr)
+    }
+
+    func buttonTitle(forEmptyDataSet scrollView: UIScrollView!, for state: UIControlState) -> NSAttributedString! {
+        let attr: [NSAttributedStringKey: Any] = [
+            .foregroundColor: #colorLiteral(red: 0.4, green: 0.8, blue: 1, alpha: 1)
+        ]
+        return NSAttributedString(string: "Sure, let's do it!", attributes: attr)
+    }
+}
+
+extension NeedTableViewController: DZNEmptyDataSetDelegate {
+    func emptyDataSetDidTapButton(_ scrollView: UIScrollView!) {
+        add()
+    }
 }

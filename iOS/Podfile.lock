@@ -1,15 +1,24 @@
 PODS:
+  - DZNEmptyDataSet (1.8.1)
+  - FaveButton (2.0.3)
   - MessageKit (0.13.1)
   - Pastel (0.3.0)
+  - StatusAlert (0.10.1)
 
 DEPENDENCIES:
+  - DZNEmptyDataSet
+  - FaveButton
   - MessageKit
   - Pastel
+  - StatusAlert
 
 SPEC CHECKSUMS:
+  DZNEmptyDataSet: 9525833b9e68ac21c30253e1d3d7076cc828eaa7
+  FaveButton: cfcbc5e73da159c4f916613da5687357b5bb4783
   MessageKit: fc74d71d9b05385138d47b3a4b7beef5c687daf1
   Pastel: 738740c84f2b15bbcd96ebe99c4e6c2f5dd42262
+  StatusAlert: 123d79043ee371f0a57102b35e79e2c8c8684388
 
-PODFILE CHECKSUM: b52cdac7d25a8c041f3e27e917376a7755ea5f01
+PODFILE CHECKSUM: dd757912fffebba798015f352c64ce6ca4a013d8
 
 COCOAPODS: 1.4.0

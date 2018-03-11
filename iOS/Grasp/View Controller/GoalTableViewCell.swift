@@ -18,7 +18,7 @@ class GoalTableViewCell: UITableViewCell {
         didSet {
             guard let newGoal = goal else { return }
             goalLabel.text = newGoal.name
-            progressLabel.text = String.init(format: "%.2f/%.2f",
+            progressLabel.text = String(format: "%.2f/%.2f",
                                              newGoal.current, newGoal.target)
             progressView.setProgress(Float(newGoal.current / newGoal.target),
                                      animated: true)

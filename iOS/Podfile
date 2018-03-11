@@ -8,5 +8,8 @@ target 'Grasp' do
   # Pods for Grasp
   pod 'MessageKit'
   pod "Pastel"
-
+  pod 'FaveButton'
+  pod 'DZNEmptyDataSet'
+  pod 'StatusAlert'
+  
 end
