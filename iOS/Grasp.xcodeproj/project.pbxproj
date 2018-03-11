@@ -13,6 +13,7 @@
 		528EE4E2205502A4001EAEEE /* RainyDayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 528EE4E1205502A4001EAEEE /* RainyDayViewController.swift */; };
 		528EE4E4205511FD001EAEEE /* DataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 528EE4E3205511FD001EAEEE /* DataManager.swift */; };
 		528EE57820555584001EAEEE /* BaseTableViewCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 528EE57720555584001EAEEE /* BaseTableViewCellView.swift */; };
+		528EE57B205568AB001EAEEE /* BiometricAuthentication.swift in Sources */ = {isa = PBXBuildFile; fileRef = 528EE57A205568AA001EAEEE /* BiometricAuthentication.swift */; };
 		52D480702054750000F89CDC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52D4806F2054750000F89CDC /* AppDelegate.swift */; };
 		52D480752054750000F89CDC /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 52D480732054750000F89CDC /* Main.storyboard */; };
 		52D480772054751000F89CDC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 52D480762054751000F89CDC /* Assets.xcassets */; };
@@ -32,6 +33,7 @@
 		528EE4E1205502A4001EAEEE /* RainyDayViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RainyDayViewController.swift; sourceTree = "<group>"; };
 		528EE4E3205511FD001EAEEE /* DataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataManager.swift; sourceTree = "<group>"; };
 		528EE57720555584001EAEEE /* BaseTableViewCellView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseTableViewCellView.swift; sourceTree = "<group>"; };
+		528EE57A205568AA001EAEEE /* BiometricAuthentication.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BiometricAuthentication.swift; path = ../../../../../../Downloads/BiometricAuthentication.swift; sourceTree = "<group>"; };
 		52D4806C2054750000F89CDC /* Grasp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Grasp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		52D4806F2054750000F89CDC /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		52D480742054750000F89CDC /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -112,6 +114,7 @@
 			children = (
 				52D480882054A46700F89CDC /* TabBarController.swift */,
 				52D480842054859E00F89CDC /* LoginViewController.swift */,
+				528EE57A205568AA001EAEEE /* BiometricAuthentication.swift */,
 				52D480732054750000F89CDC /* Main.storyboard */,
 				52D4808620549D1300F89CDC /* OverviewViewController.swift */,
 				528EE4E1205502A4001EAEEE /* RainyDayViewController.swift */,
@@ -282,6 +285,7 @@
 				52D480852054859E00F89CDC /* LoginViewController.swift in Sources */,
 				528EE4E02054FA4A001EAEEE /* Need.swift in Sources */,
 				52D480892054A46700F89CDC /* TabBarController.swift in Sources */,
+				528EE57B205568AB001EAEEE /* BiometricAuthentication.swift in Sources */,
 				52D4808B2054B26800F89CDC /* GoalTableViewController.swift in Sources */,
 				528EE4DE2054FA25001EAEEE /* NeedTableViewController.swift in Sources */,
 				528EE4E2205502A4001EAEEE /* RainyDayViewController.swift in Sources */,

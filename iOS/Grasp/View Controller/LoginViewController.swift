@@ -15,7 +15,16 @@ class LoginViewController: UIViewController {
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        showMainUI()
+        BiometricAuthentication.authenticate { state in
+            switch state {
+            case .success:
+                DispatchQueue.main.async { [weak self] in
+                    self?.showMainUI()
+                }
+            case .failure(error: let error):
+                print(error ?? "Failed")
+            }
+        }
     }
 
     @IBAction func didTapLoginButton() {
