@@ -7,14 +7,16 @@
 //
 
 import UIKit
+import DZNEmptyDataSet
 
-class GoalTableViewController: UITableViewController, UITextFieldDelegate, GoalTableViewCellDelegate {
-
-
-
+class GoalTableViewController: UITableViewController, UITextFieldDelegate,
+GoalTableViewCellDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         DataManager.shared.loadGoals()
+        tableView.emptyDataSetSource = self
+        tableView.emptyDataSetDelegate = self
+        tableView.tableFooterView = UIView()
         navigationItem.rightBarButtonItems = [
             editButtonItem,
             UIBarButtonItem(barButtonSystemItem: .add,
@@ -31,9 +33,11 @@ class GoalTableViewController: UITableViewController, UITextFieldDelegate, GoalT
     private weak var costTextField: UITextField?
 
     private lazy var alert: UIAlertController = {
-        let alert = UIAlertController(title: "Add New Goal",
-                                      message: nil,
-                                      preferredStyle: .alert)
+        let alert = UIAlertController(
+            title: "Add New Goal",
+            message: nil,
+            preferredStyle: .alert
+        )
         alert.addTextField {
             $0.placeholder = "Name of this goal?"
             $0.returnKeyType = .next
@@ -128,10 +132,12 @@ class GoalTableViewController: UITableViewController, UITextFieldDelegate, GoalT
         isDismissing = false
         if let goalName = goalTextField?.text, !goalName.isEmpty {
             if let amount = costTextField?.text, let cost = Double(amount) {
-                let indexPath = IndexPath(row: DataManager.shared.goals.count, section: 0)
+                let size = DataManager.shared.goals.count
+                let indexPath = IndexPath(row: size, section: 0)
                 let newGoal = Goal(name: goalName, current: 0, target: cost)
                 DataManager.shared.goals.append(newGoal)
                 tableView.insertRows(at: [indexPath], with: .automatic)
+                if size == 0 { tableView.reloadEmptyDataSet() }
                 dismissNoMatterWhat()
             } else {
                 costTextField?.text = ""
@@ -168,12 +174,12 @@ class GoalTableViewController: UITableViewController, UITextFieldDelegate, GoalT
 
     // Override to support editing the table view.
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
-        switch editingStyle {
-        case .delete:
+        if editingStyle == .delete {
             DataManager.shared.goals.remove(at: indexPath.row)
             tableView.deleteRows(at: [indexPath], with: .automatic)
-        case .insert, .none:
-            return
+            if DataManager.shared.goals.isEmpty {
+                tableView.reloadEmptyDataSet()
+            }
         }
     }
 
@@ -219,5 +225,44 @@ class GoalTableViewController: UITableViewController, UITextFieldDelegate, GoalT
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         payForCell(tableView.cellForRow(at: indexPath) as! GoalTableViewCell)
         tableView.deselectRow(at: indexPath, animated: true)
+    }
+}
+
+extension GoalTableViewController: DZNEmptyDataSetSource {
+    func image(forEmptyDataSet scrollView: UIScrollView!) -> UIImage! {
+        return  #imageLiteral(resourceName: "ic_loyalty_48pt")
+    }
+
+    func title(forEmptyDataSet scrollView: UIScrollView!) -> NSAttributedString! {
+        let attr: [NSAttributedStringKey: Any] = [
+            .font: UIFont.preferredFont(forTextStyle: .title1),
+            .foregroundColor: UIColor.lightGray
+        ]
+        return NSAttributedString(string: "Nothing to purchase.", attributes: attr)
+    }
+
+    func description(forEmptyDataSet scrollView: UIScrollView!) -> NSAttributedString! {
+        let paragraph = NSMutableParagraphStyle()
+        paragraph.lineBreakMode = .byWordWrapping
+        paragraph.alignment = .center
+        let attr: [NSAttributedStringKey: Any] = [
+            .font: UIFont.preferredFont(forTextStyle: .body),
+            .foregroundColor: UIColor.lightGray,
+            .paragraphStyle: paragraph
+        ]
+        return NSAttributedString(string: "Use this to maintain a list of merchantise you'd like to purchase at a slower pace!", attributes: attr)
+    }
+
+    func buttonTitle(forEmptyDataSet scrollView: UIScrollView!, for state: UIControlState) -> NSAttributedString! {
+        let attr: [NSAttributedStringKey: Any] = [
+            .foregroundColor: #colorLiteral(red: 0.4, green: 0.8, blue: 1, alpha: 1)
+        ]
+        return NSAttributedString(string: "Let me try!", attributes: attr)
+    }
+}
+
+extension GoalTableViewController: DZNEmptyDataSetDelegate {
+    func emptyDataSetDidTapButton(_ scrollView: UIScrollView!) {
+        add()
     }
 }

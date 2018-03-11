@@ -36,6 +36,12 @@ class RainyDayViewController: UIViewController {
         }
     }
 
+    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
+        super.touchesEnded(touches, with: event)
+        revealButton.isSelected = true
+        reveal()
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
         extendedLayoutIncludesOpaqueBars = true
