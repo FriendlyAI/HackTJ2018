@@ -13,8 +13,18 @@ class LoginViewController: UIViewController {
     @IBOutlet weak var passwordTextField: UITextField!
     @IBOutlet weak var loginButton: UIButton!
 
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        showMainUI()
+    }
+
     @IBAction func didTapLoginButton() {
-        // TODO: Check logic
-        performSegue(withIdentifier: "Show Main UI", sender: loginButton)
+        // #warning Check
+        showMainUI()
+    }
+
+    private func showMainUI() {
+        performSegue(withIdentifier: "Show Main UI",
+                     sender: loginButton)
     }
 }

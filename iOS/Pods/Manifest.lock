@@ -1,12 +1,15 @@
 PODS:
   - MessageKit (0.13.1)
+  - Pastel (0.3.0)
 
 DEPENDENCIES:
   - MessageKit
+  - Pastel
 
 SPEC CHECKSUMS:
   MessageKit: fc74d71d9b05385138d47b3a4b7beef5c687daf1
+  Pastel: 738740c84f2b15bbcd96ebe99c4e6c2f5dd42262
 
-PODFILE CHECKSUM: 01a6bb7913ecacb5c3cebb6fdba69d61b4e58a00
+PODFILE CHECKSUM: b52cdac7d25a8c041f3e27e917376a7755ea5f01
 
 COCOAPODS: 1.4.0
