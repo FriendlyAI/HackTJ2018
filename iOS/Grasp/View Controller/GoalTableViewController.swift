@@ -38,7 +38,6 @@ class GoalTableViewController: UITableViewController, UITextFieldDelegate, GoalT
             UIBarButtonItem(barButtonSystemItem: .add,
                             target: self, action: #selector(add))
         ]
-        navigationItem.rightBarButtonItem = editButtonItem
     }
 
     private weak var goalTextField: UITextField?
