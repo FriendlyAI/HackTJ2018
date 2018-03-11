@@ -124,4 +124,22 @@ final class DataManager {
         totalAllGoalsPaid = 0
         ud.synchronize()
     }
+
+    func setToDemo() {
+        cumulativeRainyDayFund = 500
+        needs = [
+            Need(name: "Rent", cost: 1800),
+            Need(name: "Insurance", cost: 200),
+            Need(name: "Groceries", cost: 500)
+        ]
+        saveNeeds()
+        goals = [
+            Goal(name: "Car", current: 5000, target: 25000),
+            Goal(name: "Vacation", current: 0, target: 2000)
+        ]
+        saveGoals()
+        salary = 10000
+        totalAllGoalsPaid = 5000
+        ud.synchronize()
+    }
 }
