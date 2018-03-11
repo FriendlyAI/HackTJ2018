@@ -4,8 +4,8 @@
     "age": 30,
     "password": "password",
     "needs": {
-        "rent": 1000,
-        "food": 400
+        "Rent": 1000,
+        "Food": 400
     },
     "goals": {
         "Car": {
