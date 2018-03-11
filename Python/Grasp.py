@@ -415,7 +415,8 @@ if __name__ == '__main__':
                 'password': 'password',
                 'needs': {'Rent': 1000, 'Food': 400},
                 'goals': {'Car': {'amount': 20000, 'paid': 300},
-                          'Phone': {'amount': 1000, 'paid': 100}},
+                          'Phone': {'amount': 1000, 'paid': 100},
+                          'Mortgage': {'amount': 300000, 'paid': 75000}},
                 'savings': 1000
                 }
         json.dump(data, f, indent=4)
