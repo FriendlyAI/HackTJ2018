@@ -10,29 +10,9 @@ import UIKit
 
 class NeedTableViewController: UITableViewController, UITextFieldDelegate {
 
-    private var needs: [Need] = [] {
-        didSet {
-            saveNeeds()
-        }
-    }
-
-    private func loadNeeds() {
-        guard let data = UserDefaults.standard.data(forKey: "Needs")
-            , let newNeeds = try? JSONDecoder().decode([Need].self, from: data)
-            else { return }
-        needs = newNeeds
-        tableView?.reloadData()
-    }
-
-    private func saveNeeds() {
-        if let data = try? JSONEncoder().encode(needs) {
-            UserDefaults.standard.set(data, forKey: "Needs")
-        }
-    }
-
     override func viewDidLoad() {
         super.viewDidLoad()
-        loadNeeds()
+        DataManager.shared.loadNeeds()
         navigationItem.rightBarButtonItems = [
             editButtonItem,
             UIBarButtonItem(barButtonSystemItem: .add,
@@ -44,6 +24,12 @@ class NeedTableViewController: UITableViewController, UITextFieldDelegate {
     private weak var nameTextField: UITextField?
     private weak var costTextField: UITextField?
     private var isDismissing = false
+
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        tableView?.reloadData()
+        updateSummary()
+    }
 
     func textFieldDidEndEditing(_ textField: UITextField) {
         if isDismissing { return }
@@ -84,6 +70,8 @@ class NeedTableViewController: UITableViewController, UITextFieldDelegate {
         }
         alert.addAction(UIAlertAction(title: "Cancel", style: .cancel)
         { _ in self.dismissNoMatterWhat() })
+        alert.addAction(UIAlertAction(title: "Done", style: .default)
+        { _ in self.dismissAlert() })
         present(alert, animated: true, completion: nil)
     }
 
@@ -91,9 +79,10 @@ class NeedTableViewController: UITableViewController, UITextFieldDelegate {
         isDismissing = false
         if let name = nameTextField?.text, !name.isEmpty {
             if let amount = costTextField?.text, let cost = Double(amount) {
-                let indexPath = IndexPath(row: needs.count, section: 0)
+                let indexPath = IndexPath(row: DataManager.shared.needs.count,
+                                          section: 0)
                 let need = Need(name: name, cost: cost)
-                needs.append(need)
+                DataManager.shared.needs.append(need)
                 tableView.insertRows(at: [indexPath], with: .automatic)
                 dismissNoMatterWhat()
             } else {
@@ -123,13 +112,13 @@ class NeedTableViewController: UITableViewController, UITextFieldDelegate {
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return needs.count
+        return DataManager.shared.needs.count
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier",
                                                  for: indexPath)
-        let need = needs[indexPath.row]
+        let need = DataManager.shared.needs[indexPath.row]
         cell.textLabel?.text = need.name
         cell.detailTextLabel?.text = String(format: "$ %.2f", need.cost)
         return cell
@@ -140,25 +129,33 @@ class NeedTableViewController: UITableViewController, UITextFieldDelegate {
         switch editingStyle {
         case .delete:
             // Delete the row from the data source
-            needs.remove(at: indexPath.row)
+            DataManager.shared.needs.remove(at: indexPath.row)
             tableView.deleteRows(at: [indexPath], with: .automatic)
         default:
             return
         }
     }
 
-    /*
-    // Override to support rearranging the table view.
-    override func tableView(_ tableView: UITableView, moveRowAt fromIndexPath: IndexPath, to: IndexPath) {
+    // MARK: - Summary
 
+    @IBOutlet weak var summaryLabel: UILabel! {
+        didSet {
+            updateSummary()
+        }
     }
-    */
 
-    /*
-    // Override to support conditional rearranging of the table view.
-    override func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
-        // Return false if you do not want the item to be re-orderable.
-        return true
+    private func updateSummary() {
+        if DataManager.shared.needs.isEmpty {
+            summaryLabel.text = "Tap + button to add some necessities!"
+        } else {
+            let needs = DataManager.shared.totalNeeds
+            let salary = DataManager.shared.salary
+            let diff = salary - needs
+            if diff < 0 {
+                summaryLabel.text = String(format: "You still need to pay $ %.2f", -diff)
+            } else {
+                summaryLabel.text = "You can pay all of them!"
+            }
+        }
     }
-    */
 }

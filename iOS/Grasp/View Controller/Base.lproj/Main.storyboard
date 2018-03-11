@@ -5,6 +5,7 @@
     </device>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
+        <capability name="Alignment constraints with different attributes" minToolsVersion="5.1"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -67,32 +68,26 @@
         <scene sceneID="myp-jt-X1W">
             <objects>
                 <tableViewController id="PXv-Od-7Rm" customClass="NeedTableViewController" customModule="Grasp" customModuleProvider="target" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="t9B-T8-Znz">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" allowsSelection="NO" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="t9B-T8-Znz">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        <view key="tableHeaderView" contentMode="scaleToFill" id="Qdt-am-BXj">
+                        <view key="tableHeaderView" contentMode="scaleToFill" misplaced="YES" id="Qdt-am-BXj">
                             <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <subviews>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="You have paid $0 out of $0" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VTz-5u-zpX">
-                                    <rect key="frame" x="8" y="12.5" width="347" height="20.5"/>
+                                    <rect key="frame" x="8" y="-10.5" width="347" height="21"/>
                                     <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
                                     <nil key="textColor"/>
                                     <nil key="highlightedColor"/>
                                 </label>
-                                <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="v3c-im-9IW">
-                                    <rect key="frame" x="8" y="34" width="347" height="2"/>
-                                </progressView>
                             </subviews>
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <constraints>
-                                <constraint firstAttribute="bottom" secondItem="v3c-im-9IW" secondAttribute="bottom" constant="8" id="3QB-on-XjA"/>
                                 <constraint firstItem="VTz-5u-zpX" firstAttribute="leading" secondItem="Qdt-am-BXj" secondAttribute="leading" constant="8" id="9zs-5O-o0r"/>
                                 <constraint firstItem="VTz-5u-zpX" firstAttribute="centerY" secondItem="Qdt-am-BXj" secondAttribute="centerY" id="IWn-zA-irh"/>
                                 <constraint firstAttribute="trailing" secondItem="VTz-5u-zpX" secondAttribute="trailing" constant="20" symbolic="YES" id="W3I-hx-3ID"/>
-                                <constraint firstAttribute="trailing" secondItem="v3c-im-9IW" secondAttribute="trailing" constant="20" symbolic="YES" id="m9D-Oe-SAz"/>
-                                <constraint firstItem="v3c-im-9IW" firstAttribute="leading" secondItem="Qdt-am-BXj" secondAttribute="leading" constant="8" id="r5l-iy-LDY"/>
                             </constraints>
                         </view>
                         <prototypes>
@@ -128,6 +123,9 @@
                     </tableView>
                     <navigationItem key="navigationItem" title="Needs" id="33l-Lm-J7L"/>
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
+                    <connections>
+                        <outlet property="summaryLabel" destination="VTz-5u-zpX" id="6Cy-PJ-x6p"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="2Bd-kt-d8Q" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -224,7 +222,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="equalSpacing" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="t3c-fD-G6C">
-                                <rect key="frame" x="16" y="198" width="343" height="208.5"/>
+                                <rect key="frame" x="16" y="189" width="343" height="208.5"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Your Monthly Salary:" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="UAO-iT-mFE">
                                         <rect key="frame" x="0.0" y="0.0" width="343" height="32.5"/>
@@ -278,7 +276,7 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstItem="t3c-fD-G6C" firstAttribute="centerY" secondItem="taM-Kw-hvX" secondAttribute="centerY" constant="-32" id="7tV-3l-SPg"/>
+                            <constraint firstItem="t3c-fD-G6C" firstAttribute="bottom" secondItem="taM-Kw-hvX" secondAttribute="centerY" constant="64" id="3YA-9v-QXr"/>
                             <constraint firstItem="t3c-fD-G6C" firstAttribute="leading" secondItem="ooW-Ty-ZNK" secondAttribute="leading" constant="16" id="v54-Qk-YlB"/>
                             <constraint firstItem="ooW-Ty-ZNK" firstAttribute="trailing" secondItem="t3c-fD-G6C" secondAttribute="trailing" constant="16" id="xQp-lO-YS1"/>
                         </constraints>
@@ -286,6 +284,7 @@
                     </view>
                     <tabBarItem key="tabBarItem" title="Overview" image="ic_monetization_on" id="paq-3e-OaB"/>
                     <connections>
+                        <outlet property="remaingDisplayLabel" destination="1CK-po-g2w" id="bAY-lE-eaR"/>
                         <outlet property="salaryDisplayLabel" destination="uqc-g4-WjD" id="3bR-GB-xEi"/>
                     </connections>
                 </viewController>
@@ -293,21 +292,67 @@
             </objects>
             <point key="canvasLocation" x="1798" y="-1095"/>
         </scene>
-        <!--Rainy Days-->
+        <!--Rainy Day-->
         <scene sceneID="HNX-r5-1U4">
             <objects>
-                <viewController id="DX7-Zj-tI2" sceneMemberID="viewController">
+                <viewController id="DX7-Zj-tI2" customClass="RainyDayViewController" customModule="Grasp" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="pam-Np-pY7">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eIa-Y1-I3d" customClass="FaveButton" customModule="FaveButton">
+                                <rect key="frame" x="163.5" y="309.5" width="48" height="48"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="48" id="3IH-bU-CNO"/>
+                                    <constraint firstAttribute="width" constant="48" id="DrR-NV-XWu"/>
+                                </constraints>
+                                <state key="normal" image="ic_unarchive_48pt"/>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="color" keyPath="selectedColor">
+                                        <color key="value" red="0.023529411760000001" green="0.87058823529999996" blue="0.4431372549" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="color" keyPath="dotFirstColor">
+                                        <color key="value" red="0.3803921569" green="0.81176470590000005" blue="0.78039215689999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="color" keyPath="dotSecondColor">
+                                        <color key="value" red="0.98431372549999996" green="0.44705882349999998" blue="0.59999999999999998" alpha="1" colorSpace="calibratedRGB"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="color" keyPath="circleFromColor">
+                                        <color key="value" red="0.99692672490000001" green="0.48709040879999999" blue="0.65352439880000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="color" keyPath="circleToColor">
+                                        <color key="value" red="0.0" green="0.59999999999999998" blue="0.40000000000000002" alpha="1" colorSpace="calibratedRGB"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                                <connections>
+                                    <action selector="reveal" destination="DX7-Zj-tI2" eventType="touchUpInside" id="sCP-Ut-Ekl"/>
+                                </connections>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Reveal your rainy day fund:" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="54j-Lb-JHB">
+                                <rect key="frame" x="16" y="245.5" width="343" height="32"/>
+                                <fontDescription key="fontDescription" style="UICTFontTextStyleTitle1"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="54j-Lb-JHB" firstAttribute="leading" secondItem="l5F-dz-hZe" secondAttribute="leading" constant="16" id="7Xf-a8-vry"/>
+                            <constraint firstItem="eIa-Y1-I3d" firstAttribute="centerY" secondItem="pam-Np-pY7" secondAttribute="centerY" id="RSa-aa-W5M"/>
+                            <constraint firstItem="l5F-dz-hZe" firstAttribute="trailing" secondItem="54j-Lb-JHB" secondAttribute="trailing" constant="16" id="XM3-BM-rIZ"/>
+                            <constraint firstItem="eIa-Y1-I3d" firstAttribute="centerX" secondItem="pam-Np-pY7" secondAttribute="centerX" id="ceC-aC-d8f"/>
+                            <constraint firstItem="eIa-Y1-I3d" firstAttribute="top" secondItem="54j-Lb-JHB" secondAttribute="bottom" constant="32" id="xQk-S1-ZVq"/>
+                        </constraints>
                         <viewLayoutGuide key="safeArea" id="l5F-dz-hZe"/>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Rainy Days" image="ic_beach_access" id="wSC-rN-b9N"/>
+                    <tabBarItem key="tabBarItem" title="Rainy Day" image="ic_beach_access" id="wSC-rN-b9N"/>
+                    <connections>
+                        <outlet property="revealButton" destination="eIa-Y1-I3d" id="vo3-D0-kes"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="D3X-aK-XTY" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1798" y="1003"/>
+            <point key="canvasLocation" x="1797.5999999999999" y="1002.5487256371815"/>
         </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="JdO-yV-P9D">
@@ -320,9 +365,9 @@
                     </tabBar>
                     <connections>
                         <segue destination="CIk-B5-A7d" kind="relationship" relationship="viewControllers" id="T9f-iw-fJh"/>
-                        <segue destination="DX7-Zj-tI2" kind="relationship" relationship="viewControllers" id="iVa-3L-p7W"/>
-                        <segue destination="hcl-Ec-2eT" kind="relationship" relationship="viewControllers" id="id5-uj-znJ"/>
                         <segue destination="Isw-SF-uF6" kind="relationship" relationship="viewControllers" id="n5b-KN-gaN"/>
+                        <segue destination="hcl-Ec-2eT" kind="relationship" relationship="viewControllers" id="d38-gn-STq"/>
+                        <segue destination="DX7-Zj-tI2" kind="relationship" relationship="viewControllers" id="sdw-Tf-r4c"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Tgz-as-RpR" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -375,5 +420,6 @@
         <image name="ic_mode_edit" width="24" height="24"/>
         <image name="ic_monetization_on" width="24" height="24"/>
         <image name="ic_shopping_cart" width="24" height="24"/>
+        <image name="ic_unarchive_48pt" width="48" height="48"/>
     </resources>
 </document>

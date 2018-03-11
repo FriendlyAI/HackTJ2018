@@ -10,34 +10,21 @@ import UIKit
 
 class GoalTableViewController: UITableViewController, UITextFieldDelegate, GoalTableViewCellDelegate {
 
-    private var goals: [Goal] = [] {
-        didSet {
-            saveGoals()
-        }
-    }
 
-    private func loadGoals() {
-        guard let data = UserDefaults.standard.data(forKey: "Goals")
-            , let newGoals = try? JSONDecoder().decode([Goal].self, from: data)
-            else { return }
-        goals = newGoals
-        tableView?.reloadData()
-    }
-
-    private func saveGoals() {
-        if let data = try? JSONEncoder().encode(goals) {
-            UserDefaults.standard.set(data, forKey: "Goals")
-        }
-    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        loadGoals()
+        DataManager.shared.loadGoals()
         navigationItem.rightBarButtonItems = [
             editButtonItem,
             UIBarButtonItem(barButtonSystemItem: .add,
                             target: self, action: #selector(add))
         ]
+    }
+
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        tableView?.reloadData()
     }
 
     private weak var goalTextField: UITextField?
@@ -68,6 +55,8 @@ class GoalTableViewController: UITableViewController, UITextFieldDelegate, GoalT
         }
         alert.addAction(UIAlertAction(title: "Cancel", style: .cancel)
         { _ in self.dismissNoMatterWhat() })
+        alert.addAction(UIAlertAction(title: "Done", style: .default)
+        { _ in self.dismissAlert() })
         return alert
     }()
 
@@ -78,29 +67,34 @@ class GoalTableViewController: UITableViewController, UITextFieldDelegate, GoalT
         present(alert, animated: true, completion: nil)
     }
 
+    private func processPayTextField() {
+        if let text = payTextField?.text,
+            let payment = Double(text),
+            let indexPath = payIndexPath {
+            DataManager.shared.totalAllGoalsPaid += payment
+            let goal = DataManager.shared.goals[indexPath.row]
+            let newGoal = Goal(name: goal.name,
+                               current: goal.current + payment,
+                               target: goal.target)
+            if newGoal.current > newGoal.target {
+                DataManager.shared.goals.remove(at: indexPath.row)
+                tableView.deleteRows(at: [indexPath], with: .automatic)
+            } else {
+                (tableView.cellForRow(at: indexPath)
+                    as? GoalTableViewCell)?.goal = newGoal
+                DataManager.shared.goals[indexPath.row] = newGoal
+            }
+            dismissNoMatterWhat()
+        } else {
+            payTextField?.text = ""
+            payTextField?.becomeFirstResponder()
+        }
+    }
+
     func textFieldDidEndEditing(_ textField: UITextField) {
         if isDismissing { return }
         if textField == payTextField {
-            if let text = textField.text,
-                let payment = Double(text),
-                let indexPath = payIndexPath {
-                let goal = goals[indexPath.row]
-                let newGoal = Goal(name: goal.name,
-                                  current: goal.current + payment,
-                                  target: goal.target)
-                if newGoal.current > newGoal.target {
-                    goals.remove(at: indexPath.row)
-                    tableView.deleteRows(at: [indexPath], with: .automatic)
-                } else {
-                    (tableView.cellForRow(at: indexPath)
-                        as? GoalTableViewCell)?.goal = newGoal
-                    goals[indexPath.row] = newGoal
-                }
-                dismissNoMatterWhat()
-            } else {
-                textField.text = ""
-                textField.becomeFirstResponder()
-            }
+            processPayTextField()
         } else if textField == goalTextField && costTextField?.text?.isEmpty == true {
             costTextField?.becomeFirstResponder()
         } else if textField == costTextField && goalTextField?.text?.isEmpty == true {
@@ -134,9 +128,9 @@ class GoalTableViewController: UITableViewController, UITextFieldDelegate, GoalT
         isDismissing = false
         if let goalName = goalTextField?.text, !goalName.isEmpty {
             if let amount = costTextField?.text, let cost = Double(amount) {
-                let indexPath = IndexPath(row: goals.count, section: 0)
+                let indexPath = IndexPath(row: DataManager.shared.goals.count, section: 0)
                 let newGoal = Goal(name: goalName, current: 0, target: cost)
-                goals.append(newGoal)
+                DataManager.shared.goals.append(newGoal)
                 tableView.insertRows(at: [indexPath], with: .automatic)
                 dismissNoMatterWhat()
             } else {
@@ -156,7 +150,7 @@ class GoalTableViewController: UITableViewController, UITextFieldDelegate, GoalT
 
     override func tableView(_ tableView: UITableView,
                             numberOfRowsInSection section: Int) -> Int {
-        return goals.count
+        return DataManager.shared.goals.count
     }
 
     override func tableView(_ tableView: UITableView,
@@ -165,7 +159,7 @@ class GoalTableViewController: UITableViewController, UITextFieldDelegate, GoalT
                                                  for: indexPath)
 
         if let goalCell = cell as? GoalTableViewCell {
-            goalCell.goal = goals[indexPath.row]
+            goalCell.goal = DataManager.shared.goals[indexPath.row]
             goalCell.delegate = self
         }
 
@@ -176,7 +170,7 @@ class GoalTableViewController: UITableViewController, UITextFieldDelegate, GoalT
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         switch editingStyle {
         case .delete:
-            goals.remove(at: indexPath.row)
+            DataManager.shared.goals.remove(at: indexPath.row)
             tableView.deleteRows(at: [indexPath], with: .automatic)
         case .insert, .none:
             return
@@ -196,7 +190,7 @@ class GoalTableViewController: UITableViewController, UITextFieldDelegate, GoalT
         isDismissing = true
         payIndexPath = tableView.indexPath(for: cell)
         let row = payIndexPath!.row
-        let goal = goals[row]
+        let goal = DataManager.shared.goals[row]
         payAlert = UIAlertController(title: "Pay for \(goal.name)", message: "You have already paid \(goal.current) out of \(goal.target)", preferredStyle: .alert)
         payAlert?.addTextField {
             $0.keyboardType = .decimalPad
@@ -213,27 +207,17 @@ class GoalTableViewController: UITableViewController, UITextFieldDelegate, GoalT
             $0.inputAccessoryView = bar
             self.payTextField = $0
         }
-        payAlert?.addAction(UIAlertAction(title: "Cancel", style: .cancel)
-        { _ in self.dismissNoMatterWhat() })
+        payAlert?.addAction(UIAlertAction(title: "Cancel", style: .cancel) { _ in self.dismissNoMatterWhat()
+        })
+        payAlert?.addAction(UIAlertAction(title: "Done", style: .default) { _ in
+            self.processPayTextField()
+            self.dismissPaymentAlert()
+        })
         present(payAlert!, animated: true, completion: nil)
     }
 
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        payForCell(tableView.cellForRow(at: indexPath) as! GoalTableViewCell)
         tableView.deselectRow(at: indexPath, animated: true)
     }
-
-    /*
-     // Override to support rearranging the table view.
-     override func tableView(_ tableView: UITableView, moveRowAt fromIndexPath: IndexPath, to: IndexPath) {
-
-     }
-     */
-
-    /*
-     // Override to support conditional rearranging of the table view.
-     override func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
-     // Return false if you do not want the item to be re-orderable.
-     return true
-     }
-     */
 }
