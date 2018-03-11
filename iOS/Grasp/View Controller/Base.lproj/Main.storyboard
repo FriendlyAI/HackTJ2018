@@ -5,6 +5,7 @@
     </device>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -60,6 +61,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
+            <point key="canvasLocation" x="82" y="33"/>
         </scene>
         <!--Goals-->
         <scene sceneID="w3a-Wu-C62">
@@ -75,7 +77,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="7BF-wR-t3f" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1687" y="365"/>
+            <point key="canvasLocation" x="1798" y="296"/>
         </scene>
         <!--Needs-->
         <scene sceneID="z5n-yG-mBW">
@@ -84,6 +86,12 @@
                     <view key="view" contentMode="scaleToFill" id="Hgc-Aw-pZH">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" fixedFrame="YES" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="81G-sk-gnE">
+                                <rect key="frame" x="71" y="204" width="150" height="2"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </progressView>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <viewLayoutGuide key="safeArea" id="4b1-5U-eEk"/>
                     </view>
@@ -91,7 +99,69 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="cvL-lk-I1X" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1687" y="-299"/>
+            <point key="canvasLocation" x="1798" y="-393"/>
+        </scene>
+        <!--Overview-->
+        <scene sceneID="viy-Tj-QMy">
+            <objects>
+                <viewController id="CIk-B5-A7d" customClass="OverviewViewController" customModule="Grasp" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="taM-Kw-hvX" customClass="PastelView" customModule="Pastel">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="equalSpacing" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="t3c-fD-G6C">
+                                <rect key="frame" x="16" y="246.5" width="343" height="111.5"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Your Monthly Salary:" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qiB-SY-eK2">
+                                        <rect key="frame" x="0.0" y="0.0" width="343" height="31.5"/>
+                                        <fontDescription key="fontDescription" style="UICTFontTextStyleTitle1"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <stackView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="249" verticalHuggingPriority="249" horizontalCompressionResistancePriority="751" verticalCompressionResistancePriority="751" distribution="fillProportionally" alignment="center" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="kUO-L3-25U">
+                                        <rect key="frame" x="0.0" y="47.5" width="343" height="64"/>
+                                        <subviews>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="$ 0.00" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uqc-g4-WjD">
+                                                <rect key="frame" x="0.0" y="0.0" width="271.5" height="64"/>
+                                                <fontDescription key="fontDescription" style="UICTFontTextStyleTitle1"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="749" verticalCompressionResistancePriority="749" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9fZ-gQ-HBU">
+                                                <rect key="frame" x="279.5" y="0.0" width="63.5" height="64"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="width" secondItem="9fZ-gQ-HBU" secondAttribute="height" multiplier="1:1" id="fK7-hq-ZR8"/>
+                                                    <constraint firstAttribute="height" constant="64" id="lVL-HW-otD"/>
+                                                </constraints>
+                                                <state key="normal" image="ic_mode_edit"/>
+                                                <connections>
+                                                    <action selector="configureSalary" destination="CIk-B5-A7d" eventType="touchUpInside" id="EP7-d8-awj"/>
+                                                </connections>
+                                            </button>
+                                        </subviews>
+                                        <constraints>
+                                            <constraint firstItem="9fZ-gQ-HBU" firstAttribute="height" secondItem="uqc-g4-WjD" secondAttribute="height" id="M83-ce-jNT"/>
+                                        </constraints>
+                                    </stackView>
+                                </subviews>
+                            </stackView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="t3c-fD-G6C" firstAttribute="centerY" secondItem="taM-Kw-hvX" secondAttribute="centerY" constant="-32" id="7tV-3l-SPg"/>
+                            <constraint firstItem="t3c-fD-G6C" firstAttribute="leading" secondItem="ooW-Ty-ZNK" secondAttribute="leading" constant="16" id="v54-Qk-YlB"/>
+                            <constraint firstItem="ooW-Ty-ZNK" firstAttribute="trailing" secondItem="t3c-fD-G6C" secondAttribute="trailing" constant="16" id="xQp-lO-YS1"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="ooW-Ty-ZNK"/>
+                    </view>
+                    <tabBarItem key="tabBarItem" title="Overview" image="ic_monetization_on" id="paq-3e-OaB"/>
+                    <connections>
+                        <outlet property="salaryDisplayLabel" destination="uqc-g4-WjD" id="3bR-GB-xEi"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="5J2-O4-ur6" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1798" y="-1095"/>
         </scene>
         <!--Rainy Days-->
         <scene sceneID="HNX-r5-1U4">
@@ -107,31 +177,34 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="D3X-aK-XTY" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2369" y="-113"/>
+            <point key="canvasLocation" x="1798" y="1003"/>
         </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="JdO-yV-P9D">
             <objects>
-                <tabBarController id="I0m-GD-nYJ" sceneMemberID="viewController">
+                <tabBarController id="I0m-GD-nYJ" customClass="TabBarController" customModule="Grasp" customModuleProvider="target" sceneMemberID="viewController">
                     <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="8Gh-zE-ECG">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="49"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     </tabBar>
                     <connections>
-                        <segue destination="OET-lr-36X" kind="relationship" relationship="viewControllers" id="v69-Zk-2lv"/>
-                        <segue destination="iVD-RG-bZ8" kind="relationship" relationship="viewControllers" id="PCK-Nz-FTl"/>
-                        <segue destination="DX7-Zj-tI2" kind="relationship" relationship="viewControllers" id="U7I-cE-eE9"/>
+                        <segue destination="CIk-B5-A7d" kind="relationship" relationship="viewControllers" id="T9f-iw-fJh"/>
+                        <segue destination="OET-lr-36X" kind="relationship" relationship="viewControllers" id="6Gl-Jx-38f"/>
+                        <segue destination="iVD-RG-bZ8" kind="relationship" relationship="viewControllers" id="vy2-HE-2aq"/>
+                        <segue destination="DX7-Zj-tI2" kind="relationship" relationship="viewControllers" id="iVa-3L-p7W"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Tgz-as-RpR" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="735" y="34"/>
+            <point key="canvasLocation" x="881" y="33"/>
         </scene>
     </scenes>
     <resources>
         <image name="ic_beach_access" width="24" height="24"/>
         <image name="ic_chrome_reader_mode" width="24" height="24"/>
+        <image name="ic_mode_edit" width="24" height="24"/>
+        <image name="ic_monetization_on" width="24" height="24"/>
         <image name="ic_shopping_cart" width="24" height="24"/>
     </resources>
 </document>

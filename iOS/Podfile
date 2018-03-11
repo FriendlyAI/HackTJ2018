@@ -7,4 +7,6 @@ target 'Grasp' do
 
   # Pods for Grasp
   pod 'MessageKit'
+  pod "Pastel"
+
 end
