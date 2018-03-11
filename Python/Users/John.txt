@@ -1,0 +1,22 @@
+{
+    "name": "John",
+    "monthly": "10000",
+    "age": "30",
+    "password": "password",
+    "needs": {
+        "rent": "1000",
+        "food": "400"
+    },
+    "goals": {
+        "Car": {
+            "enabled": true,
+            "amount": "20000",
+            "months": "3"
+        },
+        "Phone": {
+            "enabled": false,
+            "amount": "1000",
+            "months": "2"
+        }
+    }
+}
