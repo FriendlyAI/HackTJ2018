@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		03DB618781C4060AE3736428 /* Pods_Grasp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 398696B97D98D75DF86E5FAF /* Pods_Grasp.framework */; };
+		528EE4DE2054FA25001EAEEE /* NeedTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 528EE4DD2054FA25001EAEEE /* NeedTableViewController.swift */; };
+		528EE4E02054FA4A001EAEEE /* Need.swift in Sources */ = {isa = PBXBuildFile; fileRef = 528EE4DF2054FA4A001EAEEE /* Need.swift */; };
 		52D480702054750000F89CDC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52D4806F2054750000F89CDC /* AppDelegate.swift */; };
 		52D480752054750000F89CDC /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 52D480732054750000F89CDC /* Main.storyboard */; };
 		52D480772054751000F89CDC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 52D480762054751000F89CDC /* Assets.xcassets */; };
@@ -22,6 +24,8 @@
 
 /* Begin PBXFileReference section */
 		398696B97D98D75DF86E5FAF /* Pods_Grasp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Grasp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		528EE4DD2054FA25001EAEEE /* NeedTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NeedTableViewController.swift; sourceTree = "<group>"; };
+		528EE4DF2054FA4A001EAEEE /* Need.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Need.swift; sourceTree = "<group>"; };
 		52D4806C2054750000F89CDC /* Grasp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Grasp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		52D4806F2054750000F89CDC /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		52D480742054750000F89CDC /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -101,9 +105,10 @@
 			isa = PBXGroup;
 			children = (
 				52D480882054A46700F89CDC /* TabBarController.swift */,
-				52D480732054750000F89CDC /* Main.storyboard */,
 				52D480842054859E00F89CDC /* LoginViewController.swift */,
+				52D480732054750000F89CDC /* Main.storyboard */,
 				52D4808620549D1300F89CDC /* OverviewViewController.swift */,
+				528EE4DD2054FA25001EAEEE /* NeedTableViewController.swift */,
 				52D4808C2054B28100F89CDC /* GoalTableViewCell.swift */,
 				52D4808A2054B26800F89CDC /* GoalTableViewController.swift */,
 			);
@@ -114,6 +119,7 @@
 			isa = PBXGroup;
 			children = (
 				52D4808E2054B34700F89CDC /* Goal.swift */,
+				528EE4DF2054FA4A001EAEEE /* Need.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -259,8 +265,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				52D480852054859E00F89CDC /* LoginViewController.swift in Sources */,
+				528EE4E02054FA4A001EAEEE /* Need.swift in Sources */,
 				52D480892054A46700F89CDC /* TabBarController.swift in Sources */,
 				52D4808B2054B26800F89CDC /* GoalTableViewController.swift in Sources */,
+				528EE4DE2054FA25001EAEEE /* NeedTableViewController.swift in Sources */,
 				52D480702054750000F89CDC /* AppDelegate.swift in Sources */,
 				52D4808D2054B28100F89CDC /* GoalTableViewCell.swift in Sources */,
 				52D4808720549D1300F89CDC /* OverviewViewController.swift in Sources */,
