@@ -111,19 +111,26 @@ class Table(QTabWidget):
 
     def goals_tab(self):
 
-        def pay():
+        def pay_goal():
             pass
 
-        def add():
+        def add_goal():
             pass
 
-        def remove():
+        def remove_goal():
             pass
 
         add = QPushButton('Add Goal', self.goals)
         add.move(10, 425)
+        add.clicked.connect(add_goal)
+
         remove = QPushButton('Remove Goal', self.goals)
         remove.setGeometry(775 - remove.width(), 425, remove.width() + 5, remove.height())
+        remove.clicked.connect(remove_goal)
+
+        pay = QPushButton('Pay', self.goals)
+        pay.clicked.connect(pay_goal)
+        pay.setGeometry((800 - pay.width()) / 2, 425, pay.width() + 5, pay.height())
 
         goals_scroll = QScrollArea(self.goals)
         goals_scroll.setGeometry(0, 0, 800, 400)
@@ -140,13 +147,6 @@ class Table(QTabWidget):
             temp_bar.setFixedSize(300, 20)
             temp_bar.setValue(100 * float(goal_data['paid']) / float(goal_data['amount']))
             goals_scroll.layout.insertWidget(goals_scroll.layout.count() - 1, temp_bar, 0, Qt.AlignCenter)
-
-            temp_button = QPushButton('Pay', self.goals)
-            temp_button.clicked.connect(pay)
-            goals_scroll.layout.insertWidget(goals_scroll.layout.count() - 1, temp_button, 0, Qt.AlignCenter)
-
-
-
 
     def rain_tab(self):
         pass
