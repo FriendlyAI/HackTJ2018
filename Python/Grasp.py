@@ -1,10 +1,10 @@
 import json
+from os import listdir
 import sys
 from PyQt5.QtWidgets import QMainWindow, QApplication, QWidget, QDesktopWidget, QPushButton, QTabWidget, QVBoxLayout, \
     QLabel, QScrollArea, QProgressBar, QInputDialog, QErrorMessage, QLineEdit
 from PyQt5.QtGui import QFont
 from PyQt5.QtCore import Qt
-import time
 
 
 class Login(QMainWindow):
@@ -25,6 +25,7 @@ class Login(QMainWindow):
 
         self.create_account_button = QPushButton('Create Account', self)
 
+        self.login_label = QLabel(self)
         self.login_name = QLabel(self)
         self.login_name_line = QLineEdit(self)
         self.login_password = QLabel(self)
@@ -48,18 +49,18 @@ class Login(QMainWindow):
         self.name.setText('Name:')
         self.name_line.resize(150, 20)
         self.name_line.move((self.width - self.name_line.width()) / 2, 50)
-        self.name.move((self.width - self.name_line.width()) / 2 - self.name.width(), 50)
+        self.name.move((self.width - self.name_line.width()) / 2 - self.name.width(), 45)
 
         self.monthly_salary.setText('Monthly Salary:')
         self.monthly_salary_line.resize(150, 20)
         self.monthly_salary_line.move((self.width - self.monthly_salary_line.width()) / 2, 75)
-        self.monthly_salary.move((self.width - self.monthly_salary_line.width()) / 2 - self.monthly_salary.width(), 75)
+        self.monthly_salary.move((self.width - self.monthly_salary_line.width()) / 2 - self.monthly_salary.width(), 70)
 
         self.password.setText('Password:')
         self.password_line.setEchoMode(QLineEdit.Password)
         self.password_line.resize(150, 20)
         self.password_line.move((self.width - self.password_line.width()) / 2, 100)
-        self.password.move((self.width - self.password_line.width()) / 2 - self.password.width(), 100)
+        self.password.move((self.width - self.password_line.width()) / 2 - self.password.width(), 95)
 
         self.create_account_button.resize(self.create_account_button.sizeHint())
         self.create_account_button.move((self.width - self.create_account_button.width()) / 2, 125)
@@ -67,30 +68,66 @@ class Login(QMainWindow):
 
         # Login
 
+        self.login_label.setText('Login')
+        self.login_label.resize(self.login_label.sizeHint())
+        self.login_label.move((self.width - self.login_label.width()) / 2, 200)
+
+        self.login_name.setText('Name:')
+        self.login_name_line.resize(150, 20)
+        self.login_name_line.move((self.width - self.login_name_line.width()) / 2, 225)
+        self.login_name.move((self.width - self.login_name_line.width()) / 2 - self.login_name.width(), 220)
+
+        self.login_password.setText('Password:')
+        self.login_password_line.setEchoMode(QLineEdit.Password)
+        self.login_password_line.resize(150, 20)
+        self.login_password_line.move((self.width - self.login_password_line.width()) / 2, 250)
+        self.login_password.move((self.width - self.login_password_line.width()) / 2 - self.login_password.width(), 245)
+
         self.login_button.resize(self.login_button.sizeHint())
-        self.login_button.move((self.width - self.login_button.width()) / 2,
-                               (self.height - self.login_button.height()) / 2)
-        self.login_button.clicked.connect(self.open_main_wrapper)
+        self.login_button.move((self.width - self.login_button.width()) / 2, 275)
+        self.login_button.clicked.connect(self.login_wrapper)
 
         self.show()
 
     def create_account_wrapper(self):
-        with open(f'Users/{self.name_line.text()}.txt', 'w+') as file:
-            user_dict = {
-                'name': f'{self.name_line.text()}',
-                'monthly': float(self.monthly_salary_line.text()),
-                'password': f'{self.password_line.text()}',
-                'needs': {},
-                'goals': {}
-            }
-            json.dump(user_dict, file, indent=4)
-        self.open_main()
 
-    def open_main_wrapper(self):
-        self.open_main()
+        if f'{self.name_line.text()}.txt' in listdir('Users'):
+            msg = QErrorMessage(self)
+            msg.showMessage('Error: User already exists.')
+        else:
+            try:
+                with open(f'Users/{self.name_line.text()}.txt', 'w+') as file:
+                    user_dict = {
+                        'name': f'{self.name_line.text()}',
+                        'monthly': float(self.monthly_salary_line.text()),
+                        'password': f'{self.password_line.text()}',
+                        'needs': {},
+                        'goals': {}
+                    }
+                    json.dump(user_dict, file, indent=4)
+            except ValueError:
+                msg = QErrorMessage(self)
+                msg.showMessage('Error: invalid account creation information.')
+        if not self.password_line.text() or not self.monthly_salary_line.text():
+            msg = QErrorMessage(self)
+            msg.showMessage('Error: invalid account creation information.')
+        else:
+            self.open_main(self.name_line.text())
 
-    def open_main(self):
-        self.main = Main(self.name_line.text())
+    def login_wrapper(self):
+        try:
+            with open(f'Users/{self.login_name_line.text()}.txt', 'r') as file:
+                if json.load(file)['password'] != self.login_password_line.text():
+                    msg = QErrorMessage(self)
+                    msg.showMessage('Error: Username or password incorrect')
+                else:
+                    self.open_main(self.login_name_line.text())
+        except FileNotFoundError:
+            msg = QErrorMessage(self)
+            msg.showMessage('Error: Username or password incorrect.')
+
+    def open_main(self, name):
+        self.main = Main(name)
         self.main.show()
         self.hide()
 
@@ -130,10 +167,12 @@ class Table(QTabWidget):
         self.goal_list = {}
         self.need_list = {}
 
-        with open(f'Users/{name}.txt', 'r') as file:
+        self.name = name
+
+        with open(f'Users/{self.name}.txt', 'r') as file:
             self.user = json.load(file)
 
-        self.balance = int(self.user['monthly'])
+        self.balance = self.user['monthly']
         self.salary_label = QLabel('Your monthly salary: ${:,.2f}'.format(self.user['monthly']))
         self.balance_label = QLabel('Your monthly remaining balance: ${:,.2f}'.format(self.balance))
         self.rainy_day = QLabel('Your rainy day fund: ${:,.2f}'.format(max(self.balance, 0)))
@@ -198,7 +237,6 @@ class Table(QTabWidget):
         self.rainy_day.setText('Your rainy day fund: ${:,.2f}'.format(max(self.balance, 0)))
 
     def refresh_needs(self):
-        print(self.user['needs'])
         for need, need_amount in self.user['needs'].items():
             if need not in self.need_list.keys():
                 temp_label = QLabel(
@@ -217,11 +255,10 @@ class Table(QTabWidget):
                 self.need_list[need] = (temp_label, temp_bar)
             else:
                 self.need_list[need][1].setValue(min(100 * self.balance / need_amount, 100))
-                self.balance -= need_amount
-                if self.balance < 0:
-                    self.error('You don\'t have enough money to pay for your needs!')
                 self.need_list[need][0].setText(
                     '{} (${:,.2f}/month)'.format(need, need_amount))
+
+        self.refresh_data()
 
     def add_need(self):
         need, ok1 = QInputDialog.getText(self, 'Input a new need', '')
@@ -229,10 +266,13 @@ class Table(QTabWidget):
             amount, ok2 = QInputDialog.getInt(self, 'Input need amount/month', '$')
             if ok2:
                 try:
-                    self.user['needs'][need] = amount
-                    self.refresh_needs()
-                    self.balance_label.setText('Your monthly remaining balance: ${:,.2f}'.format(self.balance))
-                    self.rainy_day.setText('Your rainy day fund: ${:,.2f}'.format(max(self.balance, 0)))
+                    if need in self.user['needs'].keys():
+                        self.error('Error: Need already exists.')
+                    else:
+                        self.user['needs'][need] = amount
+                        self.refresh_needs()
+                        self.balance_label.setText('Your monthly remaining balance: ${:,.2f}'.format(self.balance))
+                        self.rainy_day.setText('Your rainy day fund: ${:,.2f}'.format(max(self.balance, 0)))
                 except:
                     self.error('Error: Could not add need.')
 
@@ -295,6 +335,7 @@ class Table(QTabWidget):
                 self.goal_list[goal][1].setValue(min(100 * goal_data['paid'] / goal_data['amount'], 100))
                 self.goal_list[goal][0].setText(
                     '{} (${:,.2f}/${:,.2f})'.format(goal, goal_data['paid'], goal_data['amount']))
+        self.refresh_data()
 
     def pay_goal(self):
         goals = self.user['goals'].keys()
@@ -355,6 +396,11 @@ class Table(QTabWidget):
     def error(self, message):
         msg = QErrorMessage(self)
         msg.showMessage(message)
+
+    def refresh_data(self):
+        print(self.user)
+        with open(f'Users/{self.name}.txt', 'w') as file:
+            json.dump(self.user, file, indent=4)
 
 
 if __name__ == '__main__':
