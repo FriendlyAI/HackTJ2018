@@ -9,14 +9,12 @@
     },
     "goals": {
         "Car": {
-            "enabled": true,
             "amount": "20000",
-            "months": "3"
+            "paid": "300"
         },
         "Phone": {
-            "enabled": false,
             "amount": "1000",
-            "months": "2"
+            "paid": "100"
         }
     }
 }

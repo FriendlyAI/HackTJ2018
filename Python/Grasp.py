@@ -26,10 +26,6 @@ class Login(QWidget):
         login_button.move((self.width - login_button.width()) / 2, (self.height - login_button.height()) / 2)
         login_button.clicked.connect(self.open_main_wrapper)
 
-        progress = QProgressBar(self)
-        progress.setGeometry(200, 300, 300, 100)
-        progress.setValue(67)
-
         self.show()
 
     def open_main_wrapper(self):
@@ -74,6 +70,8 @@ class Table(QTabWidget):
         with open('Users/John.txt', 'r') as f:
             self.user = json.load(f)
 
+        self.balance = int(self.user['monthly'])
+
         self.addTab(self.salary, 'Salary Overview')
         self.addTab(self.needs, 'Needs')
         self.addTab(self.goals, 'Goals')
@@ -112,6 +110,16 @@ class Table(QTabWidget):
         pass
 
     def goals_tab(self):
+
+        def pay():
+            pass
+
+        def add():
+            pass
+
+        def remove():
+            pass
+
         add = QPushButton('Add Goal', self.goals)
         add.move(10, 425)
         remove = QPushButton('Remove Goal', self.goals)
@@ -124,16 +132,21 @@ class Table(QTabWidget):
         goals_scroll.setLayout(goals_scroll.layout)
 
         for goal, goal_data in self.user['goals'].items():
-            if goal_data['enabled']:
-                temp = QLabel(goal)
-                temp.setFont(self.default_font)
-                goals_scroll.layout.insertWidget(goals_scroll.layout.count() - 1, temp, 0, Qt.AlignCenter)
+            temp_label = QLabel('{} (${:,.2f}/${:,.2f})'.format(goal, float(goal_data['paid']), float(goal_data['amount'])))
+            temp_label.setFont(self.default_font)
+            goals_scroll.layout.insertWidget(goals_scroll.layout.count() - 1, temp_label, 0, Qt.AlignCenter)
 
-        for goal, goal_data in self.user['goals'].items():
-            if not goal_data['enabled']:
-                temp = QLabel(goal)
-                temp.setFont(self.default_font)
-                goals_scroll.layout.insertWidget(goals_scroll.layout.count() - 1, temp, 0, Qt.AlignCenter)
+            temp_bar = QProgressBar(self.goals)
+            temp_bar.setFixedSize(300, 20)
+            temp_bar.setValue(100 * float(goal_data['paid']) / float(goal_data['amount']))
+            goals_scroll.layout.insertWidget(goals_scroll.layout.count() - 1, temp_bar, 0, Qt.AlignCenter)
+
+            temp_button = QPushButton('Pay', self.goals)
+            temp_button.clicked.connect(pay)
+            goals_scroll.layout.insertWidget(goals_scroll.layout.count() - 1, temp_button, 0, Qt.AlignCenter)
+
+
+
 
     def rain_tab(self):
         pass
@@ -144,8 +157,8 @@ if __name__ == '__main__':
     with open('Users/John.txt', 'w') as f:
         data = {'name': 'John', 'monthly': '10000', 'age': '30', 'password': 'password',
                 'needs': {'rent': '1000', 'food': '400'},
-                'goals': {'Car': {'enabled': True, 'amount': '20000', 'months': '3'},
-                          'Phone': {'enabled': False, 'amount': '1000', 'months': '2'}}}
+                'goals': {'Car': {'amount': '20000', 'paid': '300'},
+                          'Phone': {'amount': '1000', 'paid': '100'}}}
         json.dump(data, f, indent=4)
 
     app = QApplication(sys.argv)
