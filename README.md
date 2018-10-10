@@ -17,3 +17,5 @@ According to times magazine, more than 82% of Americans don’t budget correctly
 This has in turn led to many people falling into debt or complete financial ruin incase that emergency does occur.
 
 Our app is very important because it promotes healthy budgeting by making it very easy to classify your expenses and it is on your mobile device, making it easier to adjust budgets on the go.
+
+pls no dox
